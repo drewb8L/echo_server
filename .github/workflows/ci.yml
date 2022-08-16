@@ -9,5 +9,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: fwilhe2/setup-kotlin@main
       - run: kotlinc src/main/kotlin/com/babcock/Main.kt -include-runtime -d /tmp/main.jar; java -jar /tmp/main.jar
-    name: Install gradle
-    run: sudo apt-get install -y gradle
+      - run: sudo apt-get install -y gradle

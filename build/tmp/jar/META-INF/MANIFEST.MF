@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Main-Class: 
+Class-Path: junit-jupiter-engine-5.6.0.jar junit-platform-commons-1.6.0.
+ jar kotlin-stdlib-jdk8-1.7.10.jar kotlin-stdlib-jdk7-1.7.10.jar kotlin-
+ stdlib-common-1.7.10.jar junit-jupiter-api-5.6.0.jar kotlin-test-junit5
+ -1.7.10.jar junit-platform-engine-1.6.0.jar annotations-13.0.jar kotlin
+ -stdlib-1.7.10.jar kotlin-test-1.7.10.jar apiguardian-api-1.1.0.jar ope
+ ntest4j-1.2.0.jar
+

@@ -10,4 +10,5 @@ jobs:
       - uses: fwilhe2/setup-kotlin@main
       - run: kotlinc src/main/kotlin/com/babcock/Main.kt -include-runtime -d /tmp/main.jar; java -jar /tmp/main.jar
       - run: sudo apt-get install -y gradle
-      - run: gradle wrapper
+      - run: gradle build
+      - run: ./gradlew test

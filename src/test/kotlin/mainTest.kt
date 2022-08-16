@@ -6,7 +6,6 @@ class Test{
     @Test
     fun testMain(){
         val main = Main()
-
         assertEquals(main.mainTest(), 1)
     }
 }

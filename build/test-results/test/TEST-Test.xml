@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Test" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-08-17T17:56:16" hostname="andrews-MacBook-Pro-2.local" time="0.036">
+<testsuite name="Test" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-17T19:28:34" hostname="andrews-MacBook-Pro-2.local" time="0.04">
   <properties/>
-  <testcase name="testMain()" classname="Test" time="0.016"/>
-  <testcase name="serverSocket()" classname="Test" time="0.019"/>
+  <testcase name="testPortOnSocket()" classname="Test" time="0.04"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

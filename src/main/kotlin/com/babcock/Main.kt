@@ -16,10 +16,12 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             println("Echo Server")
-            val sm = SelectorManager(Dispatchers.IO)
-            val aSocket = aSocket(sm).tcp().bind("127.0.0.1", 8080)
-            println("Server is listening at ${aSocket.localAddress}, Context: ${aSocket.socketContext}")
-            aSocket.close()
+            runBlocking {
+                val sm = SelectorManager(Dispatchers.IO)
+                val aSocket = aSocket(sm).tcp().bind("127.0.0.1", 8080)
+                println("Server is listening at ${aSocket.localAddress}, Context: ${aSocket.socketContext}")
+
+            }
 
         }
     }

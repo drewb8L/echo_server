@@ -6,6 +6,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+       # Cache Gradle dependencies
+      - name: Setup Gradle Dependencies Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      # Cache Gradle Wrapper
+      - name: Setup Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
       - uses: actions/checkout@v2
       - uses: fwilhe2/setup-kotlin@main
       - run: kotlinc src/main/kotlin/com/babcock/Main.kt -include-runtime -d /tmp/main.jar; java -jar /tmp/main.jar

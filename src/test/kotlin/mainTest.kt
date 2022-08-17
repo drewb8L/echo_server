@@ -22,6 +22,7 @@ class Test{
     fun serverSocket() {
         val selectorManager = SelectorManager(Dispatchers.Default)
         val serverSocket = aSocket(selectorManager).tcp().bind("127.0.0.1", 8080)
+        serverSocket.close()
         assertNotNull(serverSocket)
     }
     @Test
@@ -30,7 +31,9 @@ class Test{
         runBlocking {
             val selectorManager = SelectorManager(Dispatchers.Default)
             val serverSocket = aSocket(selectorManager).tcp().bind("127.0.0.1", 8080)
+
             assertEquals(serverSocket.localAddress.toString(), "/127.0.0.1:8080" )
+            serverSocket.close()
         }
     }
 

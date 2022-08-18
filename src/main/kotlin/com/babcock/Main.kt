@@ -6,6 +6,7 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 
 fun mainTest(): Int {
@@ -27,18 +28,28 @@ fun server() {
         while (true) {
             val socket = aSocket.accept()
             println("Connection made")
+            println("Your connection context is: ${socket.socketContext}")
             launch {
                 val rc = socket.openReadChannel()
                 val sc = socket.openWriteChannel(autoFlush = true)
-                sc.writeStringUtf8("Test msg")
+                sc.writeStringUtf8("Enter some text to send to the server, close connection by entering '.':\n")
                 try {
                     while (true) {
+                        sc.writeStringUtf8("${socket.socketContext}: ")
                         val msg = rc.readUTF8Line()
-                        sc.writeStringUtf8("$msg")
-                        sc.close()
+                        if (msg == ".") {
+                            sc.writeStringUtf8("Goodbye! \n")
+                            withContext(Dispatchers.IO) {
+                                socket.close()
+                            }
+                        } else {
+                            sc.writeStringUtf8("Server echos with: $msg\n")
+                        }
                     }
                 } catch (e: Throwable) {
-                    aSocket.close()
+                    withContext(Dispatchers.IO) {
+                        socket.close()
+                    }
                 }
             }
         }

@@ -55,6 +55,7 @@ class HttpParser {
             if (byte == SP){
                 if (!parsedMethod){
                     log.logWarning("Request line METHOD to process: ${dataBufferProcess.toString()}")
+                    request.method = HttpMethod.convertToMethod(dataBufferProcess.toString())
                     parsedMethod = true
                 } else if (!parsedRequestTarget) {
                     log.logWarning("Request line TARGET to process: ${dataBufferProcess.toString()}")

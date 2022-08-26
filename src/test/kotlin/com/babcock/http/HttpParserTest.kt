@@ -1,5 +1,6 @@
 package com.babcock.http
 
+import com.babcock.log
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -18,7 +19,9 @@ internal class HttpParserTest {
 
     @Test
     fun parseRequest() {
-        httpParser.parseHttpReq(validParseTestCase())
+        val request = httpParser.parseHttpReq(validParseTestCase())
+        log.logSuccess("Method returned: ${request.method}")
+        assertEquals(HttpMethod.GET, request.method)
 
     }
 

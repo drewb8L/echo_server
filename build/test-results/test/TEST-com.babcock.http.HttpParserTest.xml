@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-26T18:07:27" hostname="andrews-MacBook-Pro-2.local" time="0.007">
+  <properties/>
+  <testcase name="parseRequest()" classname="com.babcock.http.HttpParserTest" time="0.007"/>
+  <system-out><![CDATA[?[33m Byte: 32
+?[33m Request line to process: GET
+?[33m Byte: 32
+?[33m Request line to process: /
+?[33m Request line to process: HTTP/1.1
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

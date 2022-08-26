@@ -1,5 +1,3 @@
-[33m Byte: 32
-#[33m Request line to process: GET
-[33m Byte: 32
-![33m Request line to process: /
-([33m Request line to process: HTTP/1.1
+*[33m Request line METHOD to process: GET
+([33m Request line TARGET to process: /
+0[33m Request line VERSION to process: HTTP/1.1

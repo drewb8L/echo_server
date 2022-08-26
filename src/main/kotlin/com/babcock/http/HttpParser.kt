@@ -40,15 +40,26 @@ class HttpParser {
         var byte: Int
         val dataBufferProcess = StringBuilder()
 
+        var parsedMethod:Boolean = false
+        var parsedRequestTarget:Boolean = false
+
         while((reader.read().also { byte = it }) >=0){
             if(byte == CR){
                 byte = reader.read()
                 if (byte == LF){
+                    log.logWarning("Request line VERSION to process: ${dataBufferProcess.toString()}")
 
                     return
                 }
             }
             if (byte == SP){
+                if (!parsedMethod){
+                    log.logWarning("Request line METHOD to process: ${dataBufferProcess.toString()}")
+                    parsedMethod = true
+                } else if (!parsedRequestTarget) {
+                    log.logWarning("Request line TARGET to process: ${dataBufferProcess.toString()}")
+                    parsedRequestTarget = true
+                }
                 dataBufferProcess.delete(0, dataBufferProcess.length)
             } else {
                 dataBufferProcess.append(byte.toChar())

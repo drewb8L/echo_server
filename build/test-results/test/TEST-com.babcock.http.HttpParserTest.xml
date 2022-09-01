@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.babcock.http.HttpParserTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-09-01T14:56:00" hostname="andrews-MacBook-Pro-2.local" time="0.022">
+<testsuite name="com.babcock.http.HttpParserTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-09-01T21:39:44" hostname="andrews-MacBook-Pro-2.local" time="0.027">
   <properties/>
-  <testcase name="byteSize()" classname="com.babcock.http.HttpParserTest" time="0.011"/>
-  <testcase name="parseRequest()" classname="com.babcock.http.HttpParserTest" time="0.002"/>
-  <testcase name="parseHttpReqNotNull()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
-  <testcase name="parseInvalidRequest()" classname="com.babcock.http.HttpParserTest" time="0.007"/>
-  <system-out><![CDATA[Size in bytes: 33
-Size in bytes: 33
-Size in bytes: 33
-?[33m Request line METHOD to process: GET
+  <testcase name="parseMethodHead()" classname="com.babcock.http.HttpParserTest" time="0.013"/>
+  <testcase name="parseInvalidRequestEmptyLineFeed()" classname="com.babcock.http.HttpParserTest" time="0.008"/>
+  <testcase name="parseRequest()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <testcase name="parseHttpReqNotNull()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidRequestEmptyReqLine()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidRequest()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <testcase name="parseInvalidMethod()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <system-out><![CDATA[?[33m Request line METHOD to process: HEAD
 ?[33m Request line TARGET to process: /
 ?[33m Request line VERSION to process: HTTP/1.1
-Size in bytes: 32
-Size in bytes: 32
-Size in bytes: 32
+?[32m Method returned: HEAD
+?[33m Request line METHOD to process: HEAD
+?[33m Request line TARGET to process: /
 ?[33m Request line METHOD to process: GET
 ?[33m Request line TARGET to process: /
 ?[33m Request line VERSION to process: HTTP/1.1
 ?[32m Method returned: GET
-Size in bytes: 33
-Size in bytes: 33
-Size in bytes: 33
+?[33m Request line VERSION to process: 
 ?[33m Request line METHOD to process: get
+?[33m Request line METHOD to process: GETTTTTTT
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

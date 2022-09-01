@@ -42,31 +42,36 @@ class HttpParser {
             if (byte == CR) {
                 byte = reader.read()
                 if (byte == LF) {
-                    log.logWarning("Request line VERSION to process: ${dataBufferProcess.toString()}")
-
+                    log.logWarning("Request line VERSION to process: $dataBufferProcess")
+                    if (!parsedMethod || !parsedRequestTarget){
+                        throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                    }
                     return
+                } else{
+                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                 }
             }
             if (byte == SP) {
                 if (!parsedMethod) {
                     log.logWarning("Request line METHOD to process: $dataBufferProcess")
                     request.method = HttpMethod.convertToMethod(dataBufferProcess.toString())
+
                     parsedMethod = true
                 } else if (!parsedRequestTarget) {
                     log.logWarning("Request line TARGET to process: $dataBufferProcess")
+                    request.requestTarget = dataBufferProcess.toString()
                     parsedRequestTarget = true
+                } else {
+                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                 }
                 dataBufferProcess.delete(0, dataBufferProcess.length)
-            } else {
+            } else{
                 dataBufferProcess.append(byte.toChar())
-                if (!parsedMethod){
-                    if (HttpMethod.maxLength(request.toString())){
-                        throw HttpParseException(HttpStatusCode.SERVER_ERROR_501_NOT_IMPLEMENTED)
-                    }
-                }
+
             }
 
         }
+
     }
 
     companion object {

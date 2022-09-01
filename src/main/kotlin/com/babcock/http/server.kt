@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 
 val log = Log()
 
@@ -33,18 +34,22 @@ fun server(port: Int) {
 
                 log.logMessage("Server is listening on port $port")
                 try {
+
                     log.logSuccess("${socket.socketContext}: ")
                     val request = input.readUTF8Line()
 
                     log.logSuccess("Request received:, $request / ${socket.socketContext}")
                     log.logWarning(response)
                     output.writeStringUtf8(response)
+
+
+
+                } catch (e: Throwable) {
                     withContext(Dispatchers.IO) {
                         socket.close()
                     }
 
-
-                } catch (e: Throwable) {
+                }finally {
                     withContext(Dispatchers.IO) {
                         socket.close()
                     }

@@ -1,1 +1,17 @@
-*[33m Request line METHOD to process: get
+Size in bytes: 33
+Size in bytes: 33
+Size in bytes: 33
+*[33m Request line METHOD to process: GET
+([33m Request line TARGET to process: /
+0[33m Request line VERSION to process: HTTP/1.1
+Size in bytes: 32
+Size in bytes: 32
+Size in bytes: 32
+*[33m Request line METHOD to process: GET
+([33m Request line TARGET to process: /
+0[33m Request line VERSION to process: HTTP/1.1
+[32m Method returned: GET
+Size in bytes: 33
+Size in bytes: 33
+Size in bytes: 33
+*[33m Request line METHOD to process: get

@@ -14,9 +14,7 @@ class HttpParser {
     fun parseHttpReq(inputStream: InputStream): HttpReq {
         val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
         val request = HttpReq()
-
         parseRequestLine(reader, request)
-
         parseHeaders(reader, request)
         parseBody(reader, request)
 
@@ -61,6 +59,11 @@ class HttpParser {
                 dataBufferProcess.delete(0, dataBufferProcess.length)
             } else {
                 dataBufferProcess.append(byte.toChar())
+                if (!parsedMethod){
+                    if (HttpMethod.maxLength(request.toString())){
+                        throw HttpParseException(HttpStatusCode.SERVER_ERROR_501_NOT_IMPLEMENTED)
+                    }
+                }
             }
 
         }

@@ -34,10 +34,11 @@ internal class HttpParserTest {
                     httpParser.parseHttpReq(invalidParseTestCase())
                 }
             )
+    }
 
-
-
-
+    @Test
+    fun byteSize(){
+        httpParser.parseHttpReq(validParseTestCase())
     }
 
     fun validParseTestCase(): InputStream {

@@ -23,23 +23,27 @@ fun server(port: Int) {
             launch {
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel(autoFlush = true)
-                //if (request == "GET / HTTP/1.1" || request == "GET /favicon.ico HTTP/1.1"){
+
+                val html: String =
+                    "<html><head><title> Kotlin http server</title></head><body><h1 style=\"color:blue;\">Hello, beautiful world!</h1></body></html>"
+                val CRLF: String = "\n\r"
+
+                val response: String = "HTTP/1.1 200 OK${CRLF}" +
+                        "Content-Length: ${html.toByteArray().size}${CRLF}${CRLF}${html}${CRLF}${CRLF}"
+
                 log.logMessage("Server is listening on port $port")
                 try {
-                    while (true) {
-                        output.writeStringUtf8("${socket.socketContext}: ")
-                        val request = input.readUTF8Line()
+                    log.logSuccess("${socket.socketContext}: ")
+                    val request = input.readUTF8Line()
 
-                        log.logSuccess("Request received:, $request / ${socket.socketContext}")
-                        output.writeStringUtf8(
-                            """
-            HTTP/1.1 200 OK
-            
-            <html><head><title> Kotlin http server</title></head><body><h1 style="color:blue;">Hello, beautiful world!</h1></body></html>""".trimIndent()
-                        )
-
-
+                    log.logSuccess("Request received:, $request / ${socket.socketContext}")
+                    log.logWarning(response)
+                    output.writeStringUtf8(response)
+                    withContext(Dispatchers.IO) {
+                        socket.close()
                     }
+
+
                 } catch (e: Throwable) {
                     withContext(Dispatchers.IO) {
                         socket.close()

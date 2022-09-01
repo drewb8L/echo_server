@@ -7,7 +7,8 @@ enum class HttpStatusCode(val STATUS_CODE: Int, val MESSAGE:String = "Bad Reques
     CLIENT_ERROR_414_BAD_REQUEST(414, "URI Too Long"),
 
     SERVER_ERROR_500_INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
-    SERVER_ERROR_501_NOT_IMPLEMENTED(501, "Not Implemented")
+    SERVER_ERROR_501_NOT_IMPLEMENTED(501, "Not Implemented"),
+    SERVER_ERROR_505_INTERNAL_SERVER_ERROR(505, "Version Not Supported")
 
 
 

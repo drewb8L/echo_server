@@ -1,13 +1,0 @@
-+[33m Request line METHOD to process: HEAD
-([33m Request line TARGET to process: /
-0[33m Request line VERSION to process: HTTP/1.1
-[32m Method returned: HEAD
-+[33m Request line METHOD to process: HEAD
-([33m Request line TARGET to process: /
-*[33m Request line METHOD to process: GET
-([33m Request line TARGET to process: /
-0[33m Request line VERSION to process: HTTP/1.1
-[32m Method returned: GET
-([33m Request line VERSION to process: 
-*[33m Request line METHOD to process: get
-0[33m Request line METHOD to process: GETTTTTTT

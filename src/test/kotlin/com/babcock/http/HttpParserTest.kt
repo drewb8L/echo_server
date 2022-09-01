@@ -73,7 +73,23 @@ internal class HttpParserTest {
         )
     }
 
+    @Test
+    fun parseCompatibleHttpVersion() {
+        val version:HttpVersion? = HttpVersion.getCompatibleVersion("HTTP/1.1")
+        assertNotNull(version)
+        assertEquals(version, HttpVersion.HTTP_1_1)
+    }
 
+    @Test
+    fun parseinvalidHttpVersion() {
+        assertFailsWith<HttpParseException>(
+            message = "Version Not Supported",
+            block = {
+                val version:HttpVersion? = HttpVersion.getCompatibleVersion("http/1.1")
+
+            }
+        )
+    }
 
     fun validParseTestCase(): InputStream {
         val validRequestString: String =

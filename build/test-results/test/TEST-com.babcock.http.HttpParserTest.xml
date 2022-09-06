@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-01T22:36:49" hostname="andrews-MacBook-Pro-2.local" time="0.012">
+<testsuite name="com.babcock.http.HttpParserTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-09-06T15:08:20" hostname="andrews-MacBook-Pro-2.local" time="0.029">
   <properties/>
-  <testcase name="parseinvalidHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.012"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="parseMethodHead()" classname="com.babcock.http.HttpParserTest" time="0.013"/>
+  <testcase name="parseInvalidRequestEmptyLineFeed()" classname="com.babcock.http.HttpParserTest" time="0.009"/>
+  <testcase name="parseRequest()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseHttpReqNotNull()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidRequestEmptyReqLine()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <testcase name="parseInvalidRequest()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <testcase name="parseCompatibleHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseinvalidHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidMethod()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <system-out><![CDATA[?[33m Request line METHOD to process: HEAD
+?[33m Request line TARGET to process: /
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Method returned: HEAD
+?[33m Request line METHOD to process: HEAD
+?[33m Request line TARGET to process: /
+?[33m Request line METHOD to process: GET
+?[33m Request line TARGET to process: /
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Method returned: GET
+?[33m Request line VERSION to process: 
+?[33m Request line METHOD to process: get
+?[33m Request line METHOD to process: GETTTTTTT
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

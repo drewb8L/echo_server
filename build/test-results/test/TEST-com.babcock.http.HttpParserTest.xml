@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-06T16:34:45" hostname="andrews-MacBook-Pro-2.local" time="0.006">
+<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-07T16:57:31" hostname="andrews-MacBook-Pro-2.local" time="0.014">
   <properties/>
-  <testcase name="forTesting()" classname="com.babcock.http.HttpParserTest" time="0.006"/>
-  <system-out><![CDATA[-2147483648
+  <testcase name="parseRequest()" classname="com.babcock.http.HttpParserTest" time="0.014"/>
+  <system-out><![CDATA[?[33m Request line METHOD to process: GET
+?[33m Request line TARGET to process: /
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Method returned: GET
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

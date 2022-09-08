@@ -14,12 +14,18 @@ class HttpParser {
     fun parseHttpReq(inputStream: InputStream): HttpReq {
         val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
         val request = HttpReq()
+        log.logMessage("parsing...")
         parseRequestLine(reader, request)
-        parseHeaders(reader, request)
-        parseBody(reader, request)
-
+        //parseHeaders(reader, request)
+        //parseBody(reader, request)
+        log.logMessage("parsing complete")
         return request
 
+    }
+
+    @Throws(HttpParseException::class)
+    fun parser(input: String): HttpReq {
+        return HttpReq()
     }
 
     private fun parseBody(reader: InputStreamReader, request: HttpReq) {
@@ -46,7 +52,13 @@ class HttpParser {
                     if (!parsedMethod || !parsedRequestTarget){
                         throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                     }
+                    try {
+                        request.compatibleHttpVersion = dataBufferProcess.toString()
+                    } catch (e: HttpParseException){
+                        throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                    }
                     return
+
                 } else{
                     throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                 }

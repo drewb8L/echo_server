@@ -1,1 +1,4 @@
--2147483648
+*[33m Request line METHOD to process: GET
+([33m Request line TARGET to process: /
+0[33m Request line VERSION to process: HTTP/1.1
+[32m Method returned: GET

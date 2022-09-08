@@ -1,9 +1,9 @@
 package com.babcock.http
 
-import com.sun.jdi.IntegerType
+
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import kotlin.math.min
+
 
 enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
     HTTP_1_1("HTTP/1.1", 1, 1),;

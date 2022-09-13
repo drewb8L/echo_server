@@ -1,6 +1,7 @@
 package com.babcock.http
 
 enum class HttpStatusCode(val STATUS_CODE: Int, val MESSAGE:String = "Bad Request") {
+    SUCCESS_200_OK(200, "OK"),
 
     CLIENT_ERROR_400_BAD_REQUEST(400, "Bad request"),
     CLIENT_ERROR_401_METHOD_NOT_ALLOWED(401, "Method Not Allowed"),

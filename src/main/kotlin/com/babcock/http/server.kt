@@ -5,14 +5,20 @@ import com.babcock.http.HttpParser
 import com.babcock.http.HttpStatusCode
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
+import io.ktor.util.Identity.decode
 import io.ktor.utils.io.*
+import io.ktor.utils.io.jvm.javaio.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.html.HTMLTableCaptionElement
+import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.StringBuilder
 import java.lang.Thread.sleep
+import java.nio.charset.StandardCharsets
 
 val log = Log()
 
@@ -35,33 +41,26 @@ fun server(port: Int) {
                     "<html><head><title> Kotlin http server</title></head><body><h1 style=\"color:blue;\">Hello, beautiful world!</h1></body></html>"
                 val CRLF: String = "\n\r"
 
-                val response: String = "HTTP/1.1 200 OK${CRLF}" + "Content-Length: ${html.toByteArray().size}${CRLF}${CRLF}${html}${CRLF}${CRLF}"
+
 
                 log.logMessage("Server is listening on port $port")
                 try {
-                    val request = input.readUTF8Line()
-                    log.logSuccess("Request received:, $request / ${socket.socketContext}")
+                    val request = input.toInputStream()
+
+                    log.logSuccess("Request received:${socket.socketContext}")
+                    val req = parser.parseHttpReq(request)
 
 
-                    val res = request?.let { parser.parseHttpReq(it.byteInputStream()) }
-                    if (res != null) {
-                        output.writeStringUtf8(res.method.toString())
-                    } else {
-                        log.logError("Null")
-                    }
-
-                    //log.logSuccess("${res.method}")
-                    //val response: String = "${res.compatibleHttpVersion} 200 OK$CRLF" +
-                            //"Content-Length: ${html.toByteArray().size}$CRLF$CRLF$CRLF$html$CRLF$CRLF"
+                    val response: String = "HTTP/1.1 200 OK${CRLF} Content-Length: ${html.toByteArray().size}${CRLF}${CRLF}${html}${CRLF}${CRLF}"
+//
 
 
-
-                    //log.logWarning(response)
                     output.writeStringUtf8(response)
 
 
                 } catch (e: Throwable) {
                     withContext(Dispatchers.IO) {
+                        log.logError("${e.message}")
                         socket.close()
                     }
 
@@ -74,4 +73,23 @@ fun server(port: Int) {
         }
     }
 
+}
+
+fun readAll(inputStream: InputStream): String {
+    var byte: Int
+    val dataBufferProcess = StringBuilder()
+    val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
+
+    while ((reader.read().also { byte = it }) >= 0) {
+       if (byte == 0x0d0a){
+           println("end line")
+           dataBufferProcess.append(byte.toChar())
+       } else if (byte == 0x0d0a + 0x0da){
+           println("end head")
+
+       }
+
+        }
+
+    return dataBufferProcess.toString()
 }

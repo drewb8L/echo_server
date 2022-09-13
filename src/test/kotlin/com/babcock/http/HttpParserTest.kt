@@ -32,6 +32,8 @@ internal class HttpParserTest {
         val request = httpParser.parseHttpReq(validParseTestCaseHead())
         log.logSuccess("Method returned: ${request.method}")
         assertEquals(request.method, HttpMethod.HEAD)
+        assertEquals("/", request.requestTarget)
+        assertEquals(request.compatibleHttpVersion ,"HTTP_1_1")
 
     }
 
@@ -111,8 +113,12 @@ internal class HttpParserTest {
 
     @Test
     fun invalidHttpReqBadMajorVersion() {
-        var request = httpParser.parseHttpReq(unsupportedHttpVersionRequest())
-        assertEquals(null, request.httpVersion)
+        assertFailsWith<HttpParseException>(
+            message = "Bad Request",
+            block = {
+                httpParser.parseHttpReq(unsupportedHttpVersionRequest())
+            }
+        )
 
     }
 
@@ -175,7 +181,7 @@ internal class HttpParserTest {
 
     fun invalidHttpVersionRequest(): InputStream{
         val validRequestString: String =
-            "GET / TTP/1.1\r\n" +
+            "GET / HTTP/2.1\r\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
                     "Accept-Encoding: gzip, deflate, br\r\n" +
                     "Accept-Language: en-US,en;q=0.9\r\n" +

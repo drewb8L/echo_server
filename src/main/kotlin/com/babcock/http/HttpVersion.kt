@@ -13,6 +13,7 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
     companion object{
         var httpVersionPattern: Pattern = Pattern.compile("^HTTP/(?<major>\\d+).(?<minor>\\d+)")
         fun getCompatibleVersion(inputVersion:String):HttpVersion?{
+            println("Getting version from input: $inputVersion")
             val matcher: Matcher = httpVersionPattern.matcher(inputVersion)
             if (!matcher.find() || matcher.groupCount() != 2){
 
@@ -24,8 +25,12 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
 
             for(version:HttpVersion in HttpVersion.values()){
                 if(version.VERSION == inputVersion){
+                    println("Returning version")
                     return version
-                }else {
+                }else if(version.MAJOR < major){
+                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                }
+                else {
                     if (version.MAJOR == major) {
                         if(version.MINOR < minor){
                             tempCompatibleVersion = version

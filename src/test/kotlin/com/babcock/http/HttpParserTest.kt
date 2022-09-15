@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.io.InputStreamReader
 import java.lang.Exception
+import java.lang.StringBuilder
 import java.nio.charset.StandardCharsets
 import kotlin.test.assertFailsWith
 
@@ -24,27 +26,28 @@ internal class HttpParserTest {
         log.logSuccess("Method returned: ${request.method}")
         assertEquals(request.method, HttpMethod.GET)
         assertEquals("/", request.requestTarget)
-        assertEquals(request.compatibleHttpVersion ,"HTTP_1_1")
+        assertEquals(request.compatibleHttpVersion, "HTTP_1_1")
 
     }
+
     @Test
     fun parseMethodHead() {
         val request = httpParser.parseHttpReq(validParseTestCaseHead())
         log.logSuccess("Method returned: ${request.method}")
         assertEquals(request.method, HttpMethod.HEAD)
         assertEquals("/", request.requestTarget)
-        assertEquals(request.compatibleHttpVersion ,"HTTP_1_1")
+        assertEquals(request.compatibleHttpVersion, "HTTP_1_1")
 
     }
 
     @Test
     fun parseInvalidRequest() {
-            assertFailsWith<HttpParseException>(
-                message = "Not Implemented",
-                block = {
-                    httpParser.parseHttpReq(invalidParseTestCase())
-                }
-            )
+        assertFailsWith<HttpParseException>(
+            message = "Not Implemented",
+            block = {
+                httpParser.parseHttpReq(invalidParseTestCase())
+            }
+        )
     }
 
     @Test
@@ -66,6 +69,7 @@ internal class HttpParserTest {
             }
         )
     }
+
     @Test
     fun parseInvalidRequestEmptyLineFeed() {
         assertFailsWith<HttpParseException>(
@@ -78,17 +82,18 @@ internal class HttpParserTest {
 
     @Test
     fun parseCompatibleHttpVersion() {
-        val version:HttpVersion? = HttpVersion.getCompatibleVersion("HTTP/1.1")
+        val version: HttpVersion? = HttpVersion.getCompatibleVersion("HTTP/1.1")
         assertNotNull(version)
         assertEquals(version, HttpVersion.HTTP_1_1)
     }
 
     @Test
     fun parseHigherCompatibleHttpVersion() {
-        val version:HttpVersion? = HttpVersion.getCompatibleVersion("HTTP/1.2")
+        val version: HttpVersion? = HttpVersion.getCompatibleVersion("HTTP/1.2")
         assertNotNull(version)
         assertEquals(version, HttpVersion.HTTP_1_1)
     }
+
     @Test
     fun parseInvalidHttpVersion() {
         assertFailsWith<HttpParseException>(
@@ -129,7 +134,63 @@ internal class HttpParserTest {
 
     }
 
-    fun supportedHttpVersionRequest(): InputStream{
+    @Test
+    fun parseValidHeaders() {
+        val request = httpParser.parseHttpReq(supportedHttpVersionRequest())
+        //assertNotNull(request.headers)
+    }
+
+    @Test
+    fun readAll() {
+        val inputStream: InputStream = supportedHttpVersionRequest()
+        var byte: Int
+        val dataBufferProcess = StringBuilder()
+        val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
+        var counter = 0
+        // 0x0d = CR \r
+        // 0x0a = LF \n
+        // 0x03a = :
+
+        while ((reader.read().also { byte = it }) >= 0) {
+            if (byte == 0x0a) {
+                counter++
+            }
+            if (counter > 0) {
+
+                when (byte) {
+                    0x03a -> {
+                        dataBufferProcess.offsetByCodePoints(1, 1)
+                        val temp = dataBufferProcess.toString()
+                        println("Key:$temp{}")
+                        dataBufferProcess.delete(0, dataBufferProcess.length)
+                    }
+
+                    0x0d -> {
+                        dataBufferProcess.offsetByCodePoints(dataBufferProcess.length -1, 0)
+                        val temp = dataBufferProcess.toString()
+                        println("VALUE:$temp{}")
+                        dataBufferProcess.delete(0, dataBufferProcess.length)
+                    }
+
+                    (0x0a) -> {
+                        byte = reader.read()
+                        if (byte == 0x0d){
+                            println("End")
+                            break
+                        }
+                    }
+
+                    else -> dataBufferProcess.append(byte.toChar())
+                }
+
+            }
+        }
+
+        println(dataBufferProcess)
+
+    }
+
+    fun supportedHttpVersionRequest(): InputStream {
         val validRequestString: String =
             "GET / HTTP/1.1\r\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
@@ -154,7 +215,7 @@ internal class HttpParserTest {
 
     }
 
-    fun unsupportedHttpVersionRequest(): InputStream{
+    fun unsupportedHttpVersionRequest(): InputStream {
         val validRequestString: String =
             "GET / HTTP/2.1\r\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
@@ -179,7 +240,7 @@ internal class HttpParserTest {
 
     }
 
-    fun invalidHttpVersionRequest(): InputStream{
+    fun invalidHttpVersionRequest(): InputStream {
         val validRequestString: String =
             "GET / HTTP/2.1\r\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
@@ -283,6 +344,7 @@ internal class HttpParserTest {
             )
         )
     }
+
     fun invalidParseTestCaseEmptyLineFeed(): InputStream {
         val validRequestString: String =
             "HEAD / HTTP/1.1\r" + // no linefeed

@@ -1,6 +1,7 @@
 package com.babcock.http
 
 import java.util.Collections
+import java.util.StringJoiner
 
 
 class HttpReq: HttpMsg() {
@@ -21,15 +22,28 @@ class HttpReq: HttpMsg() {
                 field = value
             }
         }
-    val headers: HttpHeaders = HttpHeaders()
+//    var headers: HttpHeaders? = null
+
+
     val body: String? = null
 
-fun requestToString(): String {
+    inner class HttpHeaders(){
+
+        fun headerMap(key: String, value: String){
+
+
+
+        }
+    }
+
+fun requestToString(): String { // add headers
     return """
         METHOD: $method,
         TARGET: $requestTarget,
+        
         COMPATIBLE VERSION: $compatibleHttpVersion,
         INPUT VERSION: $httpVersion
+        
         
     """.trimIndent()
 

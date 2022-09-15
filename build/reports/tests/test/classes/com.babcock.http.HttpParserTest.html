@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">13</div>
+<div class="counter">1</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.028s</div>
+<div class="counter">0.011s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,68 +78,8 @@
 </tr>
 </thead>
 <tr>
-<td class="success">invalidHttpReqBadMajorVersion()</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">invalidHttpReqBadVersion()</td>
-<td class="success">0.008s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseCompatibleHttpVersion()</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseHigherCompatibleHttpVersion()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseHttpReqNotNull()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseInvalidHttpVersion()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseInvalidMethod()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseInvalidRequest()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseInvalidRequestEmptyLineFeed()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseInvalidRequestEmptyReqLine()</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseMethodHead()</td>
-<td class="success">0.017s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">parseRequest()</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">validSupportedHttpVersion()</td>
-<td class="success">0s</td>
+<td class="success">readAll()</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -147,66 +87,35 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>?[33m Request line METHOD to process: HEAD
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line VERSION to process: HTTP/1.1
-?[32m Version test: HTTP/1.1
-Getting version from input: HTTP/1.1
-Returning version
-com.babcock.http.HttpHeaders@723ca036
-?[32m Method returned: HEAD
-?[33m Request line METHOD to process: GET
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line VERSION to process: HTTP/2.1
-?[32m Version test: HTTP/2.1
-Getting version from input: HTTP/2.1
-Getting version from input: HTTP/1.2
-?[33m Request line METHOD to process: GET
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line VERSION to process: HTTP/2.1
-?[32m Version test: HTTP/2.1
-Getting version from input: HTTP/2.1
-?[33m Request line METHOD to process: HEAD
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line METHOD to process: GET
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line VERSION to process: HTTP/1.1
-?[32m Version test: HTTP/1.1
-Getting version from input: HTTP/1.1
-Returning version
-com.babcock.http.HttpHeaders@4470fbd6
-?[32m Method returned: GET
-?[33m Request line VERSION to process: 
-?[33m Request line METHOD to process: get
-?[33m Request line METHOD to process: GET
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line VERSION to process: HTTP/1.1
-?[32m Version test: HTTP/1.1
-Getting version from input: HTTP/1.1
-Returning version
-com.babcock.http.HttpHeaders@15d49048
-Getting version from input: HTTP/1.1
-Returning version
-?[33m Request line METHOD to process: GET
-?[32m delete buffer
-?[33m Request line TARGET to process: /
-?[32m delete buffer
-?[33m Request line VERSION to process: HTTP/2.1
-?[32m Version test: HTTP/2.1
-Getting version from input: HTTP/2.1
-?[33m Request line METHOD to process: GETTTTTTT
+<pre>Key:ccept{}
+VALUE:text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9{}
+Key:ccept-Encoding{}
+VALUE:gzip, deflate, br{}
+Key:ccept-Language{}
+VALUE:en-US,en;q=0.9{}
+Key:ache-Control{}
+VALUE:max-age=0{}
+Key:onnection{}
+VALUE:keep-alive{}
+Key:ost{}
+Key:localhost{}
+VALUE:8081{}
+Key:ec-Fetch-Dest{}
+VALUE:document{}
+Key:ec-Fetch-Mode{}
+VALUE:navigate{}
+Key:ec-Fetch-Site{}
+VALUE:cross-site{}
+Key:pgrade-Insecure-Requests{}
+VALUE:1{}
+Key:ser-Agent{}
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36{}
+Key:ec-ch-ua{}
+VALUE:&quot;Chromium&quot;;v=&quot;104&quot;, &quot; Not A;Brand&quot;;v=&quot;99&quot;, &quot;Google Chrome&quot;;v=&quot;104&quot;{}
+Key:ec-ch-ua-mobile{}
+VALUE:?0{}
+End
+
 </pre>
 </span>
 </div>
@@ -218,7 +127,7 @@ Getting version from input: HTTP/2.1
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.5.1</a> at Sep 12, 2022, 7:29:12 PM</p>
+<a href="http://www.gradle.org">Gradle 7.5.1</a> at Sep 14, 2022, 6:58:08 PM</p>
 </div>
 </div>
 </body>

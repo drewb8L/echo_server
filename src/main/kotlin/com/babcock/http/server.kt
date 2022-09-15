@@ -19,6 +19,7 @@ import java.io.InputStreamReader
 import java.lang.StringBuilder
 import java.lang.Thread.sleep
 import java.nio.charset.StandardCharsets
+import java.util.InputMismatchException
 
 val log = Log()
 
@@ -48,11 +49,12 @@ fun server(port: Int) {
                     val request = input.toInputStream()
 
                     log.logSuccess("Request received:${socket.socketContext}")
-                    val req = parser.parseHttpReq(request)
+
+                    parser.parseHttpReq(request)
+
 
 
                     val response: String = "HTTP/1.1 200 OK${CRLF} Content-Length: ${html.toByteArray().size}${CRLF}${CRLF}${html}${CRLF}${CRLF}"
-//
 
 
                     output.writeStringUtf8(response)
@@ -71,25 +73,9 @@ fun server(port: Int) {
                 }
             }
         }
+
+
     }
 
 }
 
-fun readAll(inputStream: InputStream): String {
-    var byte: Int
-    val dataBufferProcess = StringBuilder()
-    val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
-
-    while ((reader.read().also { byte = it }) >= 0) {
-       if (byte == 0x0d0a){
-           println("end line")
-           dataBufferProcess.append(byte.toChar())
-       } else if (byte == 0x0d0a + 0x0da){
-           println("end head")
-
-       }
-
-        }
-
-    return dataBufferProcess.toString()
-}

@@ -62,22 +62,14 @@ internal class HttpParserTest {
 
     @Test
     fun parseInvalidRequestEmptyReqLine() {
-        assertFailsWith<HttpParseException>(
-            message = "Bad Request",
-            block = {
-                httpParser.parseHttpReq(invalidParseTestCaseEmptyRequestLine())
-            }
-        )
+        val req = httpParser.parseHttpReq(invalidParseTestCaseEmptyRequestLine())
+        assertEquals(400, req.statusNumber)
     }
 
     @Test
     fun parseInvalidRequestEmptyLineFeed() {
-        assertFailsWith<HttpParseException>(
-            message = "Bad Request",
-            block = {
-                httpParser.parseHttpReq(invalidParseTestCaseEmptyLineFeed())
-            }
-        )
+        val req = httpParser.parseHttpReq(invalidParseTestCaseEmptyLineFeed())
+        assertEquals(400, req.statusNumber)
     }
 
     @Test
@@ -91,39 +83,30 @@ internal class HttpParserTest {
     fun parseHigherCompatibleHttpVersion() {
         val version: HttpVersion? = HttpVersion.getCompatibleVersion("HTTP/1.2")
         assertNotNull(version)
-        assertEquals(version, HttpVersion.HTTP_1_1)
+        assertEquals(HttpVersion.HTTP_1_1, version)
     }
 
     @Test
     fun parseInvalidHttpVersion() {
-        assertFailsWith<HttpParseException>(
-            message = "Bad Request",
-            block = {
-                httpParser.parseHttpReq(invalidHttpVersionRequest())
-            }
-        )
+        val req = httpParser.parseHttpReq(invalidHttpVersionRequest())
+        assertEquals(505, req.statusNumber)
 
     }
 
     @Test
     fun invalidHttpReqBadVersion() {
-        assertFailsWith<HttpParseException>(
-            message = "Bad Request",
-            block = {
-                httpParser.parseHttpReq(invalidHttpVersionRequest())
-            }
-        )
+        val req = httpParser.parseHttpReq(invalidHttpVersionRequest())
+        assertEquals(505, req.statusNumber)
+
+
 
     }
 
     @Test
     fun invalidHttpReqBadMajorVersion() {
-        assertFailsWith<HttpParseException>(
-            message = "Bad Request",
-            block = {
-                httpParser.parseHttpReq(unsupportedHttpVersionRequest())
-            }
-        )
+        var req =httpParser.parseHttpReq(unsupportedHttpVersionRequest())
+        println(req.httpVersion)
+        assertEquals(505, req.statusNumber)
 
     }
 
@@ -141,56 +124,18 @@ internal class HttpParserTest {
     }
 
     @Test
-    fun readAll() {
-        val inputStream: InputStream = supportedHttpVersionRequest()
-        var byte: Int
-        val dataBufferProcess = StringBuilder()
-        val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
-        var counter = 0
-        // 0x0d = CR \r
-        // 0x0a = LF \n
-        // 0x03a = :
-
-        while ((reader.read().also { byte = it }) >= 0) {
-            if (byte == 0x0a) {
-                counter++
-            }
-            if (counter > 0) {
-
-                when (byte) {
-                    0x03a -> {
-                        //dataBufferProcess.offsetByCodePoints(0, 1)
-                        val temp = dataBufferProcess.toString()
-                        println("Key:$temp".trimStart())
-                        dataBufferProcess.delete(0, dataBufferProcess.length)
-                    }
-
-                    0x0d -> {
-                        //dataBufferProcess.offsetByCodePoints(dataBufferProcess.length -1, 0)
-                        val temp = dataBufferProcess.toString()
-                        println("VALUE:$temp")
-                        dataBufferProcess.delete(0, dataBufferProcess.length)
-                    }
-
-                    (0x0a) -> {
-                        byte = reader.read()
-                        if (byte == 0x0d){
-                            //println("End")
-                            break
-                        }else{
-                            dataBufferProcess.append(byte.toChar())
-                        }
-                    }
-
-                    else -> dataBufferProcess.append(byte.toChar())
-                }
-
-            }
-        }
-
-        println(dataBufferProcess)
-
+    fun status200OK(){
+        val request = httpParser.parseHttpReq(supportedHttpVersionRequest())
+        assertEquals(200,request.statusNumber)
     }
+
+    @Test
+    fun status400(){
+        val request = httpParser.parseHttpReq(invalidParseTestCaseEmptyRequestLine())
+        assertEquals(400, request.statusNumber)
+        println(request.statusMsg)
+    }
+
 
     fun supportedHttpVersionRequest(): InputStream {
         val validRequestString: String =
@@ -217,9 +162,10 @@ internal class HttpParserTest {
 
     }
 
+    //Fix version checking!!!
     fun unsupportedHttpVersionRequest(): InputStream {
         val validRequestString: String =
-            "GET / HTTP/2.1\r\n" +
+            "GET / HTTP/0.2\r\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
                     "Accept-Encoding: gzip, deflate, br\r\n" +
                     "Accept-Language: en-US,en;q=0.9\r\n" +

@@ -1,35 +1,492 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-15T14:45:06" hostname="andrews-MacBook-Pro-2.local" time="0.012">
+<testsuite name="com.babcock.http.HttpParserTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2022-09-15T22:31:08" hostname="andrews-MacBook-Pro-2.local" time="0.043">
   <properties/>
-  <testcase name="readAll()" classname="com.babcock.http.HttpParserTest" time="0.012"/>
-  <system-out><![CDATA[Key:Accept
-VALUE: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+  <testcase name="status400()" classname="com.babcock.http.HttpParserTest" time="0.012"/>
+  <testcase name="parseMethodHead()" classname="com.babcock.http.HttpParserTest" time="0.003"/>
+  <testcase name="invalidHttpReqBadVersion()" classname="com.babcock.http.HttpParserTest" time="0.002"/>
+  <testcase name="parseHigherCompatibleHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.002"/>
+  <testcase name="parseInvalidRequestEmptyLineFeed()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="status200OK()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseRequest()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseHttpReqNotNull()" classname="com.babcock.http.HttpParserTest" time="0.0"/>
+  <testcase name="parseInvalidRequestEmptyReqLine()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidRequest()" classname="com.babcock.http.HttpParserTest" time="0.01"/>
+  <testcase name="validSupportedHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseCompatibleHttpVersion()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="invalidHttpReqBadMajorVersion()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseInvalidMethod()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <testcase name="parseValidHeaders()" classname="com.babcock.http.HttpParserTest" time="0.001"/>
+  <system-out><![CDATA[?[33m Request line VERSION to process: 
 Key:Accept-Encoding
-VALUE: gzip, deflate, br
+VALUE:gzip, deflate, br
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Accept-Encoding=gzip, deflate, br
+Bad request
+?[33m Request line METHOD to process: HEAD
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Version test: HTTP/1.1
+Getting version from input: HTTP/1.1
+1/1
+Returning version
+Field: HTTP_1_1
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
 Key:Accept-Language
-VALUE: en-US,en;q=0.9
+VALUE:en-US,en;q=0.9
 Key:Cache-Control
-VALUE: max-age=0
+VALUE:max-age=0
 Key:Connection
-VALUE: keep-alive
+VALUE:keep-alive
 Key:Host
-Key: localhost
+Key:localhost
 VALUE:8081
 Key:Sec-Fetch-Dest
-VALUE: document
+VALUE:document
 Key:Sec-Fetch-Mode
-VALUE: navigate
+VALUE:navigate
 Key:Sec-Fetch-Site
-VALUE: cross-site
+VALUE:cross-site
 Key:Upgrade-Insecure-Requests
-VALUE: 1
+VALUE:1
 Key:User-Agent
-VALUE: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
 Key:sec-ch-ua
-VALUE: "Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
 Key:sec-ch-ua-mobile
-VALUE: ?0
+VALUE:?0
+End
 
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+?[32m Method returned: HEAD
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/2.1
+?[32m Version test: HTTP/2.1
+Getting version from input: HTTP/2.1
+2/1
+Temp HTTP/0.0
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+Getting version from input: HTTP/1.2
+1/2
+Version: HTTP_1_1
+Version temp: HTTP_1_1
+Last value of temp compatible version HTTP_1_1
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/2.1
+?[32m Version test: HTTP/2.1
+Getting version from input: HTTP/2.1
+2/1
+Temp HTTP/0.0
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+?[33m Request line METHOD to process: HEAD
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Accept-Encoding=gzip, deflate, br
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Version test: HTTP/1.1
+Getting version from input: HTTP/1.1
+1/1
+Returning version
+Field: HTTP_1_1
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Version test: HTTP/1.1
+Getting version from input: HTTP/1.1
+1/1
+Returning version
+Field: HTTP_1_1
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+?[32m Method returned: GET
+?[33m Request line VERSION to process: 
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Accept-Encoding=gzip, deflate, br
+?[33m Request line METHOD to process: get
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Version test: HTTP/1.1
+Getting version from input: HTTP/1.1
+1/1
+Returning version
+Field: HTTP_1_1
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+Getting version from input: HTTP/1.1
+1/1
+Returning version
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/0.2
+?[32m Version test: HTTP/0.2
+Getting version from input: HTTP/0.2
+0/2
+Temp HTTP/0.0
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
+HTTP/0.2
+?[33m Request line METHOD to process: GETTTTTTT
+?[33m Request line METHOD to process: GET
+?[32m delete buffer
+?[33m Request line TARGET to process: /
+?[32m delete buffer
+?[33m Request line VERSION to process: HTTP/1.1
+?[32m Version test: HTTP/1.1
+Getting version from input: HTTP/1.1
+1/1
+Returning version
+Field: HTTP_1_1
+Key:Accept-Encoding
+VALUE:gzip, deflate, br
+Key:Accept-Language
+VALUE:en-US,en;q=0.9
+Key:Cache-Control
+VALUE:max-age=0
+Key:Connection
+VALUE:keep-alive
+Key:Host
+Key:localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE:document
+Key:Sec-Fetch-Mode
+VALUE:navigate
+Key:Sec-Fetch-Site
+VALUE:cross-site
+Key:Upgrade-Insecure-Requests
+VALUE:1
+Key:User-Agent
+VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE:?0
+End
+
+=
+localhost=8081
+Connection=keep-alive
+User-Agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Sec-Fetch-Dest=document
+Sec-Fetch-Site=cross-site
+Host=keep-alive
+Accept-Encoding=gzip, deflate, br
+Sec-Fetch-Mode=navigate
+sec-ch-ua="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile="Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Cache-Control=max-age=0
+Upgrade-Insecure-Requests=1
+Accept-Language=en-US,en;q=0.9
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

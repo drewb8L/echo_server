@@ -1,25 +1,16 @@
 package com.babcock
 
-import com.babcock.http.HttpParseException
 import com.babcock.http.HttpParser
-import com.babcock.http.HttpStatusCode
+import com.babcock.http.HttpRes
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
-import io.ktor.util.Identity.decode
 import io.ktor.utils.io.*
 import io.ktor.utils.io.jvm.javaio.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import org.w3c.dom.html.HTMLTableCaptionElement
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.lang.StringBuilder
-import java.lang.Thread.sleep
-import java.nio.charset.StandardCharsets
-import java.util.InputMismatchException
+import java.io.FileInputStream
 
 val log = Log()
 
@@ -38,9 +29,13 @@ fun server(port: Int) {
                 val output = socket.openWriteChannel(autoFlush = true)
                 val parser = HttpParser()
 
-                val html: String =
-                    "<html><head><title> Kotlin http server</title></head><body><h1 style=\"color:blue;\">Hello, beautiful world!</h1></body></html>"
                 val CRLF: String = "\n\r"
+
+                val htmlIn = withContext(Dispatchers.IO) {
+                    FileInputStream("src/main/resources/web_files/index.html").readAllBytes()
+                }.toString(Charsets.UTF_8)
+
+
 
 
 
@@ -50,14 +45,17 @@ fun server(port: Int) {
 
                     log.logSuccess("Request received:${socket.socketContext}")
 
-                    parser.parseHttpReq(request)
+                    val req = parser.parseHttpReq(request)
+                    val res = HttpRes(req)
 
 
+                    // HTTP/1.1 200 Ok
+                    //val response: String = "${res.httpVersion} ${response2.statusCode}${CRLF} Content-Length: ${htmlIn.length}${CRLF}${CRLF}${htmlIn}${CRLF}${CRLF}"
 
-                    val response: String = "HTTP/1.1 200 OK${CRLF} Content-Length: ${html.toByteArray().size}${CRLF}${CRLF}${html}${CRLF}${CRLF}"
+                    println(res.response())
+                    output.writeStringUtf8(res.response())
 
 
-                    output.writeStringUtf8(response)
 
 
                 } catch (e: Throwable) {

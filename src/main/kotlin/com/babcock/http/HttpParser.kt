@@ -1,7 +1,6 @@
 package com.babcock.http
 
 import com.babcock.Log
-import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.lang.StringBuilder
@@ -15,12 +14,10 @@ class HttpParser {
     fun parseHttpReq(inputStream: InputStream): HttpReq {
         val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
         val request = HttpReq()
-        //var headers = HttpReq.HttpHeaders()
+
         parseRequestLine(reader, request)
         parseHeaders(reader, request)
-        //headers = parseHeaders(reader, request)
-        //println("${headers.toString()}")
-        //parseBody(reader, request)
+
         return request
 
     }
@@ -35,6 +32,8 @@ class HttpParser {
         var byte: Int
         val dataBufferProcess = StringBuilder()
         var counter = 0
+        var name: String = ""
+        var content: String = ""
 
         while ((reader.read().also { byte = it }) >= 0) {
             if (byte == 0x0a) {
@@ -46,12 +45,15 @@ class HttpParser {
                     0x03a -> {
                         val temp = dataBufferProcess.toString().trim()
                         println("Key:$temp")
+                        name = temp
+
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
 
                     0x0d -> {
                         val temp = dataBufferProcess.toString().trim()
                         println("VALUE:$temp")
+                        content = temp
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
 
@@ -65,12 +67,21 @@ class HttpParser {
                         }
                     }
 
-                    else -> dataBufferProcess.append(byte.toChar())
+                    else -> {
+                        dataBufferProcess.append(byte.toChar())
+                        request.headers[name] = content
+                        }
+
                 }
             }
         }
 
         println(dataBufferProcess.toString())
+        for (i in request.headers){
+            println(i)
+        }
+
+
 
 
     }
@@ -90,19 +101,31 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
             byte = reader.read()
             if (byte == LF) {
                 log.logWarning("Request line VERSION to process: $dataBuffer")
+
                 if (!parsedMethod || !parsedRequestTarget) {
-                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                    request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
+                    request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                    request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
+                    return request
+                    //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                 }
                 try {
                     log.logSuccess("Version test: ${dataBuffer.toString()}")
                     request.compatibleHttpVersion = dataBuffer.toString()
                 } catch (e: HttpParseException) {
-                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                    request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
+                    request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                    request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
+                    //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                    return request
                 }
                 return request
 
             } else {
-                throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
+                request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
+                //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
             }
         }
         if (byte == SP) {
@@ -116,7 +139,11 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
                 request.requestTarget = dataBuffer.toString()
                 parsedRequestTarget = true
             } else {
-                throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+                request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
+                request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
+                return request
+                //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
             }
             log.logSuccess("delete buffer")
             dataBuffer.delete(0, dataBuffer.length)
@@ -126,6 +153,9 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
         }
 
     }
+    request.statusCode = HttpStatusCode.SUCCESS_200_OK
+    request.statusNumber = HttpStatusCode.SUCCESS_200_OK.STATUS_CODE
+    request.statusMsg = HttpStatusCode.SUCCESS_200_OK.MESSAGE
     return request
 
 }

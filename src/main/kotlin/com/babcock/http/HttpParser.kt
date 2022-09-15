@@ -16,7 +16,7 @@ class HttpParser {
         val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
         val request = HttpReq()
         //var headers = HttpReq.HttpHeaders()
-        //parseRequestLine(reader, request)
+        parseRequestLine(reader, request)
         parseHeaders(reader, request)
         //headers = parseHeaders(reader, request)
         //println("${headers.toString()}")
@@ -44,16 +44,14 @@ class HttpParser {
 
                 when (byte) {
                     0x03a -> {
-                        dataBufferProcess.offsetByCodePoints(1, 0)
                         val temp = dataBufferProcess.toString().trim()
-                        println("Key:$temp{}")
+                        println("Key:$temp")
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
 
                     0x0d -> {
-                        dataBufferProcess.offsetByCodePoints(dataBufferProcess.length - 1, 0)
                         val temp = dataBufferProcess.toString().trim()
-                        println("VALUE:$temp{}")
+                        println("VALUE:$temp")
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
 
@@ -62,6 +60,8 @@ class HttpParser {
                         if (byte == 0x0d) {
                             println("End")
                             break
+                        } else{
+                            dataBufferProcess.append(byte.toChar())
                         }
                     }
 

@@ -159,24 +159,26 @@ internal class HttpParserTest {
 
                 when (byte) {
                     0x03a -> {
-                        dataBufferProcess.offsetByCodePoints(1, 1)
+                        //dataBufferProcess.offsetByCodePoints(0, 1)
                         val temp = dataBufferProcess.toString()
-                        println("Key:$temp{}")
+                        println("Key:$temp".trimStart())
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
 
                     0x0d -> {
-                        dataBufferProcess.offsetByCodePoints(dataBufferProcess.length -1, 0)
+                        //dataBufferProcess.offsetByCodePoints(dataBufferProcess.length -1, 0)
                         val temp = dataBufferProcess.toString()
-                        println("VALUE:$temp{}")
+                        println("VALUE:$temp")
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
 
                     (0x0a) -> {
                         byte = reader.read()
                         if (byte == 0x0d){
-                            println("End")
+                            //println("End")
                             break
+                        }else{
+                            dataBufferProcess.append(byte.toChar())
                         }
                     }
 

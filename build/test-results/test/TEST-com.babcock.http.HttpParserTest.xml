@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-14T23:58:08" hostname="andrews-MacBook-Pro-2.local" time="0.011">
+<testsuite name="com.babcock.http.HttpParserTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-15T14:45:06" hostname="andrews-MacBook-Pro-2.local" time="0.012">
   <properties/>
-  <testcase name="readAll()" classname="com.babcock.http.HttpParserTest" time="0.011"/>
-  <system-out><![CDATA[Key:ccept{}
-VALUE:text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9{}
-Key:ccept-Encoding{}
-VALUE:gzip, deflate, br{}
-Key:ccept-Language{}
-VALUE:en-US,en;q=0.9{}
-Key:ache-Control{}
-VALUE:max-age=0{}
-Key:onnection{}
-VALUE:keep-alive{}
-Key:ost{}
-Key:localhost{}
-VALUE:8081{}
-Key:ec-Fetch-Dest{}
-VALUE:document{}
-Key:ec-Fetch-Mode{}
-VALUE:navigate{}
-Key:ec-Fetch-Site{}
-VALUE:cross-site{}
-Key:pgrade-Insecure-Requests{}
-VALUE:1{}
-Key:ser-Agent{}
-VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36{}
-Key:ec-ch-ua{}
-VALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"{}
-Key:ec-ch-ua-mobile{}
-VALUE:?0{}
-End
+  <testcase name="readAll()" classname="com.babcock.http.HttpParserTest" time="0.012"/>
+  <system-out><![CDATA[Key:Accept
+VALUE: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Key:Accept-Encoding
+VALUE: gzip, deflate, br
+Key:Accept-Language
+VALUE: en-US,en;q=0.9
+Key:Cache-Control
+VALUE: max-age=0
+Key:Connection
+VALUE: keep-alive
+Key:Host
+Key: localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE: document
+Key:Sec-Fetch-Mode
+VALUE: navigate
+Key:Sec-Fetch-Site
+VALUE: cross-site
+Key:Upgrade-Insecure-Requests
+VALUE: 1
+Key:User-Agent
+VALUE: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+VALUE: "Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
+VALUE: ?0
 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

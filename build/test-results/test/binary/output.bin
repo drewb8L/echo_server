@@ -1,31 +1,29 @@
-Key:ccept{}
-êVALUE:text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9{}
-Key:ccept-Encoding{}
-VALUE:gzip, deflate, br{}
-Key:ccept-Language{}
-VALUE:en-US,en;q=0.9{}
-Key:ache-Control{}
-VALUE:max-age=0{}
-Key:onnection{}
-VALUE:keep-alive{}
+Key:Accept
+èVALUE: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Key:Accept-Encoding
+VALUE: gzip, deflate, br
+Key:Accept-Language
+VALUE: en-US,en;q=0.9
+Key:Cache-Control
+VALUE: max-age=0
+Key:Connection
+VALUE: keep-alive
+	Key:Host
+Key: localhost
+VALUE:8081
+Key:Sec-Fetch-Dest
+VALUE: document
+Key:Sec-Fetch-Mode
+VALUE: navigate
+Key:Sec-Fetch-Site
+VALUE: cross-site
+Key:Upgrade-Insecure-Requests
+	VALUE: 1
+Key:User-Agent
+}VALUE: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+Key:sec-ch-ua
+JVALUE: "Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Key:sec-ch-ua-mobile
 
-Key:ost{}
-Key:localhost{}
-VALUE:8081{}
-Key:ec-Fetch-Dest{}
-VALUE:document{}
-Key:ec-Fetch-Mode{}
-VALUE:navigate{}
-Key:ec-Fetch-Site{}
-VALUE:cross-site{}
-Key:pgrade-Insecure-Requests{}
-
-VALUE:1{}
-Key:ser-Agent{}
-~VALUE:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36{}
-Key:ec-ch-ua{}
-KVALUE:"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"{}
-Key:ec-ch-ua-mobile{}
-VALUE:?0{}
-End
+VALUE: ?0
 

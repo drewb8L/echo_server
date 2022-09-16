@@ -3,19 +3,20 @@ package com.babcock.http
 import com.babcock.log
 import java.io.FileInputStream
 
-class HttpRes{
+class HttpRes(request: HttpReq) {
     var ressponseData: String = ""
     var statusCode:HttpStatusCode
     var statusMessage:String = ""
     var statusNumber:Int = 0
     var version: String
     var contentType: String = "text/html"
-constructor(request: HttpReq){
-    this.statusCode = request.statusCode
-   this.version = request.httpVersion
-   this.statusNumber = request.statusNumber
-    this.statusMessage = request.statusMsg
-}
+
+    init {
+        this.statusCode = request.statusCode
+        this.version = request.httpVersion
+        this.statusNumber = request.statusNumber
+        this.statusMessage = request.statusMsg
+    }
     fun status():Boolean {
         val status:Boolean = if (this.statusCode == HttpStatusCode.SUCCESS_200_OK){
             log.logSuccess("Status 200 OK!")

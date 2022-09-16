@@ -16,7 +16,7 @@ import kotlin.test.assertFailsWith
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import kotlin.io.path.Path
-
+import com.babcock.testHelpers.Utils
 internal class HttpParserTest {
 
     val httpParser = HttpParser()
@@ -165,7 +165,7 @@ internal class HttpParserTest {
         val target = Router().handleTarget(req)
 
         assert(target.available() >= 530)
-        val output = getFileStream(file.toString())
+        val output = Utils.getFileStream(file.toString())
         println(output)
 
         assertThat(output, containsString("Kotlin HTTP Server"))
@@ -178,7 +178,7 @@ internal class HttpParserTest {
         val target = Router().handleTarget(req)
 
         assert(target.available() >= 140)
-        val output = getFileStream(file.toString())
+        val output = Utils.getFileStream(file.toString())
         println(output)
 
         assertThat(output, containsString("404 not found"))
@@ -187,32 +187,6 @@ internal class HttpParserTest {
 
 
 
-    fun getFileStream(file:String):String {
-        val input: FileInputStream = FileInputStream(file)
-        var output = StringBuilder()
-        try {
-            val byte: ByteArray = ByteArray(input.available())
-            input.read(byte)
-
-            println("File size = ${byte.size}")
-            for (i in 0..byte.size) {
-                if (i >= byte.size) {
-                    break
-                } else {
-                    //print(byte[i].toInt().toChar())
-                    output.append(byte[i].toInt().toChar())
-
-                }
-
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            input.close()
-        }
-        return output.toString()
-
-    }
 
     fun supportedHttpVersionRequest(): InputStream {
         val validRequestString: String =

@@ -1,6 +1,6 @@
 *[33m Request line METHOD to process: GET
 [32m delete buffer
-0[33m Request line TARGET to process: /notfound
+([33m Request line TARGET to process: /
 [32m delete buffer
 0[33m Request line VERSION to process: HTTP/1.1
 [32m Version test: HTTP/1.1
@@ -49,10 +49,22 @@
 Cache-Control=max-age=0
 Upgrade-Insecure-Requests=1
 Accept-Language=en-US,en;q=0.9
-Target: /notfound
-File size = 143
-<!DOCTYPE html>
+File size = 530
+
 <html lang="en">
-0<head><title> Kotlin http server</title></head>
-7<body><h1 style="color:red;">404 not found</h1></body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+s          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+:    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+&    <title>Kotlin HTTP Server</title>
+</head>
+<body>
+<h1>
+"    Welcome to Kotlin HTTP Server
+
+</h1>
++<p>Faith fears when you gain with art.</p>
+z<p>Do not assume anything Obi-Wan. Clear your mind must be if you are to discover the real villains behind this plot.</p>
+</body>
 </html>

@@ -185,11 +185,6 @@ internal class HttpParserTest {
 
     }
 
-    @Test
-    fun x(){
-        val s = getFileStream("src/main/resources/web_files/400/404.html")
-        println(s)
-    }
 
 
     fun getFileStream(file:String):String {

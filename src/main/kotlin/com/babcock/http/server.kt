@@ -52,8 +52,12 @@ fun server(port: Int) {
                     // HTTP/1.1 200 Ok
                     //val response: String = "${res.httpVersion} ${response2.statusCode}${CRLF} Content-Length: ${htmlIn.length}${CRLF}${CRLF}${htmlIn}${CRLF}${CRLF}"
 
-                    println(res.response())
+                   println(res.response())
+
                     output.writeStringUtf8(res.response())
+                    //println(res.body.length)
+                    output.writeStringUtf8(res.body)
+                    // output body
 
 
 

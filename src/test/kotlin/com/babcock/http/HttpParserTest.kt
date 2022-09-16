@@ -4,12 +4,18 @@ import com.babcock.log
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
+import java.io.FileInputStream
 import java.io.InputStream
-import java.io.InputStreamReader
 import java.lang.Exception
 import java.lang.StringBuilder
 import java.nio.charset.StandardCharsets
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 import kotlin.test.assertFailsWith
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.CoreMatchers.containsString
+import kotlin.io.path.Path
 
 internal class HttpParserTest {
 
@@ -99,12 +105,11 @@ internal class HttpParserTest {
         assertEquals(505, req.statusNumber)
 
 
-
     }
 
     @Test
     fun invalidHttpReqBadMajorVersion() {
-        var req =httpParser.parseHttpReq(unsupportedHttpVersionRequest())
+        var req = httpParser.parseHttpReq(unsupportedHttpVersionRequest())
         println(req.httpVersion)
         assertEquals(505, req.statusNumber)
 
@@ -124,18 +129,95 @@ internal class HttpParserTest {
     }
 
     @Test
-    fun status200OK(){
+    fun status200OK() {
         val request = httpParser.parseHttpReq(supportedHttpVersionRequest())
-        assertEquals(200,request.statusNumber)
+        assertEquals(200, request.statusNumber)
     }
 
     @Test
-    fun status400(){
+    fun status400() {
         val request = httpParser.parseHttpReq(invalidParseTestCaseEmptyRequestLine())
         assertEquals(400, request.statusNumber)
         println(request.statusMsg)
     }
 
+    @Test
+    fun responseHeaders() {
+        val htmlIn = FileInputStream("src/main/resources/web_files/index.html")
+        val version = "HTTP/1.1"
+        val statusNumber = "200 OK"
+        val CRLF: String = "\n\r"
+        val status = "${statusNumber}"
+        val conn = "Connection: Keep-Alive${CRLF}"
+        var contentType: String = "Content-Type: text/html$CRLF"
+        val date = Date()
+        val formattedDate = "Date: $date$CRLF"
+        val body = htmlIn
+        fun contentLength(file: FileInputStream): Int =
+            file.readAllBytes().toString(Charsets.UTF_8).length
+        println("$version $status$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength(htmlIn)}${CRLF}${CRLF}\"<html><head><title> Kotlin http server</title></head><body><h1 style=\\\"color:red;\\\">404 not found</h1></body></html>")
+    }
+
+    @Test
+    fun routingToIndex() {
+        val file = Path("src/main/resources/web_files/index.html") // size = 530 bytes
+        val req = HttpParser().parseHttpReq(validParseTestCase())
+        val target = Router().handleTarget(req)
+
+        assert(target.available() >= 530)
+        val output = getFileStream(file.toString())
+        println(output)
+
+        assertThat(output, containsString("Kotlin HTTP Server"))
+    }
+
+    @Test
+    fun routingTo404(){
+        val file = Path("src/main/resources/web_files/400/404.html") //size = 143
+        val req = HttpParser().parseHttpReq(validParseTestCaseTo404())
+        val target = Router().handleTarget(req)
+
+        assert(target.available() >= 140)
+        val output = getFileStream(file.toString())
+        println(output)
+
+        assertThat(output, containsString("404 not found"))
+
+    }
+
+    @Test
+    fun x(){
+        val s = getFileStream("src/main/resources/web_files/400/404.html")
+        println(s)
+    }
+
+
+    fun getFileStream(file:String):String {
+        val input: FileInputStream = FileInputStream(file)
+        var output = StringBuilder()
+        try {
+            val byte: ByteArray = ByteArray(input.available())
+            input.read(byte)
+
+            println("File size = ${byte.size}")
+            for (i in 0..byte.size) {
+                if (i >= byte.size) {
+                    break
+                } else {
+                    //print(byte[i].toInt().toChar())
+                    output.append(byte[i].toInt().toChar())
+
+                }
+
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            input.close()
+        }
+        return output.toString()
+
+    }
 
     fun supportedHttpVersionRequest(): InputStream {
         val validRequestString: String =
@@ -216,6 +298,29 @@ internal class HttpParserTest {
     fun validParseTestCase(): InputStream {
         val validRequestString: String =
             "GET / HTTP/1.1\r\n" +
+                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
+                    "Accept-Encoding: gzip, deflate, br\r\n" +
+                    "Accept-Language: en-US,en;q=0.9\r\n" +
+                    "Cache-Control: max-age=0\r\n" +
+                    "Connection: keep-alive\r\n" +
+                    "Host: localhost:8081\r\n" +
+                    "Sec-Fetch-Dest: document\r\n" +
+                    "Sec-Fetch-Mode: navigate\r\n" +
+                    "Sec-Fetch-Site: cross-site\r\n" +
+                    "Upgrade-Insecure-Requests: 1\r\n" +
+                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
+                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
+                    "sec-ch-ua-mobile: ?0\r\n" +
+                    "\r\n"
+        return ByteArrayInputStream(
+            validRequestString.toByteArray(
+                StandardCharsets.US_ASCII
+            )
+        )
+    }
+    fun validParseTestCaseTo404(): InputStream {
+        val validRequestString: String =
+            "GET /notfound HTTP/1.1\r\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
                     "Accept-Encoding: gzip, deflate, br\r\n" +
                     "Accept-Language: en-US,en;q=0.9\r\n" +

@@ -2,6 +2,7 @@ package com.babcock
 
 import com.babcock.http.HttpParser
 import com.babcock.http.HttpRes
+import com.babcock.http.Router
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
@@ -46,17 +47,20 @@ fun server(port: Int) {
                     log.logSuccess("Request received:${socket.socketContext}")
 
                     val req = parser.parseHttpReq(request)
+
                     val res = HttpRes(req)
+                    res.responseHeadersAndBody?.let { output.writeStringUtf8(it) }
 
 
                     // HTTP/1.1 200 Ok
                     //val response: String = "${res.httpVersion} ${response2.statusCode}${CRLF} Content-Length: ${htmlIn.length}${CRLF}${CRLF}${htmlIn}${CRLF}${CRLF}"
 
-                   println(res.response())
+//                   println(res.responseHeaders())
+//                    println(res.responseBody())
 
-                    output.writeStringUtf8(res.response())
+                    //output.writeStringUtf8(res.response())
                     //println(res.body.length)
-                    output.writeStringUtf8(res.body)
+                    //output.writeStringUtf8(res.body)
                     // output body
 
 

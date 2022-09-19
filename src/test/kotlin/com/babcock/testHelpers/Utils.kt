@@ -1,5 +1,6 @@
 package com.babcock.testHelpers
 
+import com.babcock.Log
 import java.io.FileInputStream
 import java.lang.Exception
 import java.lang.StringBuilder
@@ -23,7 +24,7 @@ object Utils {
 
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            e.message?.let { Log().logError(it) }
         } finally {
             input.close()
         }

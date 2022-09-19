@@ -1,22 +1,21 @@
 package com.babcock.http
 
 import com.babcock.log
+import com.babcock.testHelpers.Generator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.io.FileInputStream
 import java.io.InputStream
-import java.lang.Exception
-import java.lang.StringBuilder
 import java.nio.charset.StandardCharsets
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 import kotlin.test.assertFailsWith
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import kotlin.io.path.Path
 import com.babcock.testHelpers.Utils
+import java.nio.file.Files
+
 internal class HttpParserTest {
 
     val httpParser = HttpParser()
@@ -28,7 +27,7 @@ internal class HttpParserTest {
 
     @Test
     fun parseRequest() {
-        val request = httpParser.parseHttpReq(validParseTestCase())
+        val request = httpParser.parseHttpReq(Generator.validParseTestCase())
         log.logSuccess("Method returned: ${request.method}")
         assertEquals(request.method, HttpMethod.GET)
         assertEquals("/", request.requestTarget)
@@ -38,7 +37,7 @@ internal class HttpParserTest {
 
     @Test
     fun parseMethodHead() {
-        val request = httpParser.parseHttpReq(validParseTestCaseHead())
+        val request = httpParser.parseHttpReq(Generator.validParseTestCaseHead())
         log.logSuccess("Method returned: ${request.method}")
         assertEquals(request.method, HttpMethod.HEAD)
         assertEquals("/", request.requestTarget)
@@ -51,7 +50,7 @@ internal class HttpParserTest {
         assertFailsWith<HttpParseException>(
             message = "Not Implemented",
             block = {
-                httpParser.parseHttpReq(invalidParseTestCase())
+                httpParser.parseHttpReq(Generator.invalidParseTestCase())
             }
         )
     }
@@ -61,20 +60,20 @@ internal class HttpParserTest {
         assertFailsWith<HttpParseException>(
             message = "Not Implemented",
             block = {
-                httpParser.parseHttpReq(invalidMethodTestCase())
+                httpParser.parseHttpReq(Generator.invalidMethodTestCase())
             }
         )
     }
 
     @Test
     fun parseInvalidRequestEmptyReqLine() {
-        val req = httpParser.parseHttpReq(invalidParseTestCaseEmptyRequestLine())
+        val req = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
         assertEquals(400, req.statusNumber)
     }
 
     @Test
     fun parseInvalidRequestEmptyLineFeed() {
-        val req = httpParser.parseHttpReq(invalidParseTestCaseEmptyLineFeed())
+        val req = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyLineFeed())
         assertEquals(400, req.statusNumber)
     }
 
@@ -94,14 +93,14 @@ internal class HttpParserTest {
 
     @Test
     fun parseInvalidHttpVersion() {
-        val req = httpParser.parseHttpReq(invalidHttpVersionRequest())
+        val req = httpParser.parseHttpReq(Generator.invalidHttpVersionRequest())
         assertEquals(505, req.statusNumber)
 
     }
 
     @Test
     fun invalidHttpReqBadVersion() {
-        val req = httpParser.parseHttpReq(invalidHttpVersionRequest())
+        val req = httpParser.parseHttpReq(Generator.invalidHttpVersionRequest())
         assertEquals(505, req.statusNumber)
 
 
@@ -109,7 +108,7 @@ internal class HttpParserTest {
 
     @Test
     fun invalidHttpReqBadMajorVersion() {
-        var req = httpParser.parseHttpReq(unsupportedHttpVersionRequest())
+        var req = httpParser.parseHttpReq(Generator.unsupportedHttpVersionRequest())
         println(req.httpVersion)
         assertEquals(505, req.statusNumber)
 
@@ -117,51 +116,35 @@ internal class HttpParserTest {
 
     @Test
     fun validSupportedHttpVersion() {
-        val request = httpParser.parseHttpReq(supportedHttpVersionRequest())
+        val request = httpParser.parseHttpReq(Generator.supportedHttpVersionRequest())
         assertEquals(HttpVersion.HTTP_1_1.toString(), request.compatibleHttpVersion)
 
     }
 
     @Test
     fun parseValidHeaders() {
-        val request = httpParser.parseHttpReq(supportedHttpVersionRequest())
+        val request = httpParser.parseHttpReq(Generator.supportedHttpVersionRequest())
         //assertNotNull(request.headers)
     }
 
     @Test
     fun status200OK() {
-        val request = httpParser.parseHttpReq(supportedHttpVersionRequest())
+        val request = httpParser.parseHttpReq(Generator.supportedHttpVersionRequest())
         assertEquals(200, request.statusNumber)
     }
 
     @Test
     fun status400() {
-        val request = httpParser.parseHttpReq(invalidParseTestCaseEmptyRequestLine())
+        val request = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
         assertEquals(400, request.statusNumber)
         println(request.statusMsg)
     }
 
-    @Test
-    fun responseHeaders() {
-        val htmlIn = FileInputStream("src/main/resources/web_files/index.html")
-        val version = "HTTP/1.1"
-        val statusNumber = "200 OK"
-        val CRLF: String = "\n\r"
-        val status = "${statusNumber}"
-        val conn = "Connection: Keep-Alive${CRLF}"
-        var contentType: String = "Content-Type: text/html$CRLF"
-        val date = Date()
-        val formattedDate = "Date: $date$CRLF"
-        val body = htmlIn
-        fun contentLength(file: FileInputStream): Int =
-            file.readAllBytes().toString(Charsets.UTF_8).length
-        println("$version $status$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength(htmlIn)}${CRLF}${CRLF}\"<html><head><title> Kotlin http server</title></head><body><h1 style=\\\"color:red;\\\">404 not found</h1></body></html>")
-    }
 
     @Test
     fun routingToIndex() {
         val file = Path("src/main/resources/web_files/index.html") // size = 530 bytes
-        val req = HttpParser().parseHttpReq(validParseTestCase())
+        val req = HttpParser().parseHttpReq(Generator.validParseTestCase())
         val target = Router().handleTarget(req)
 
         assert(target.available() >= 530)
@@ -172,232 +155,32 @@ internal class HttpParserTest {
     }
 
     @Test
-    fun routingTo404(){
-        val file = Path("src/main/resources/web_files/400/404.html") //size = 143
-        val req = HttpParser().parseHttpReq(validParseTestCaseTo404())
+    fun routingTo404() {
+        val file = Path("src/main/resources/web_files/400/404.html") //size = 124
+        val req = HttpParser().parseHttpReq(Generator.validParseTestCaseTo404())
         val target = Router().handleTarget(req)
 
-        assert(target.available() >= 140)
+        assert(target.available() >= 100)
         val output = Utils.getFileStream(file.toString())
         println(output)
 
-        assertThat(output, containsString("404 not found"))
+        assertThat(output, containsString("404 Not Found"))
 
+    }
+    @Test
+    fun routerFindPathByTarget(){
+
+        val target = "/" //index.html
+        val req = HttpParser().parseHttpReq(Generator.validParseTestCase())
+        val res = HttpRes(req)
+        val responseHeadersAndBody = res.responseHeadersAndBody
+        assertThat(responseHeadersAndBody, containsString("Welcome to Kotlin HTTP Server"))
+
+        val req2 = HttpParser().parseHttpReq(Generator.validParseTestCaseTo404())
+        val res2 = HttpRes(req2)
+        val responseHeadersAndBody2 = res2.responseHeadersAndBody
+        assertThat(responseHeadersAndBody2, containsString("404 Not Found"))
     }
 
 
-
-
-    fun supportedHttpVersionRequest(): InputStream {
-        val validRequestString: String =
-            "GET / HTTP/1.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "Accept-Language: en-US,en;q=0.9\r\n" +
-                    "Cache-Control: max-age=0\r\n" +
-                    "Connection: keep-alive\r\n" +
-                    "Host: localhost:8081\r\n" +
-                    "Sec-Fetch-Dest: document\r\n" +
-                    "Sec-Fetch-Mode: navigate\r\n" +
-                    "Sec-Fetch-Site: cross-site\r\n" +
-                    "Upgrade-Insecure-Requests: 1\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-
-    }
-
-    //Fix version checking!!!
-    fun unsupportedHttpVersionRequest(): InputStream {
-        val validRequestString: String =
-            "GET / HTTP/0.2\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "Accept-Language: en-US,en;q=0.9\r\n" +
-                    "Cache-Control: max-age=0\r\n" +
-                    "Connection: keep-alive\r\n" +
-                    "Host: localhost:8081\r\n" +
-                    "Sec-Fetch-Dest: document\r\n" +
-                    "Sec-Fetch-Mode: navigate\r\n" +
-                    "Sec-Fetch-Site: cross-site\r\n" +
-                    "Upgrade-Insecure-Requests: 1\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-
-    }
-
-    fun invalidHttpVersionRequest(): InputStream {
-        val validRequestString: String =
-            "GET / HTTP/2.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "Accept-Language: en-US,en;q=0.9\r\n" +
-                    "Cache-Control: max-age=0\r\n" +
-                    "Connection: keep-alive\r\n" +
-                    "Host: localhost:8081\r\n" +
-                    "Sec-Fetch-Dest: document\r\n" +
-                    "Sec-Fetch-Mode: navigate\r\n" +
-                    "Sec-Fetch-Site: cross-site\r\n" +
-                    "Upgrade-Insecure-Requests: 1\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-
-    }
-
-    fun validParseTestCase(): InputStream {
-        val validRequestString: String =
-            "GET / HTTP/1.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "Accept-Language: en-US,en;q=0.9\r\n" +
-                    "Cache-Control: max-age=0\r\n" +
-                    "Connection: keep-alive\r\n" +
-                    "Host: localhost:8081\r\n" +
-                    "Sec-Fetch-Dest: document\r\n" +
-                    "Sec-Fetch-Mode: navigate\r\n" +
-                    "Sec-Fetch-Site: cross-site\r\n" +
-                    "Upgrade-Insecure-Requests: 1\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
-    fun validParseTestCaseTo404(): InputStream {
-        val validRequestString: String =
-            "GET /notfound HTTP/1.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "Accept-Language: en-US,en;q=0.9\r\n" +
-                    "Cache-Control: max-age=0\r\n" +
-                    "Connection: keep-alive\r\n" +
-                    "Host: localhost:8081\r\n" +
-                    "Sec-Fetch-Dest: document\r\n" +
-                    "Sec-Fetch-Mode: navigate\r\n" +
-                    "Sec-Fetch-Site: cross-site\r\n" +
-                    "Upgrade-Insecure-Requests: 1\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
-
-    fun validParseTestCaseHead(): InputStream {
-        val validRequestString: String =
-            "HEAD / HTTP/1.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "Accept-Language: en-US,en;q=0.9\r\n" +
-                    "Cache-Control: max-age=0\r\n" +
-                    "Connection: keep-alive\r\n" +
-                    "Host: localhost:8081\r\n" +
-                    "Sec-Fetch-Dest: document\r\n" +
-                    "Sec-Fetch-Mode: navigate\r\n" +
-                    "Sec-Fetch-Site: cross-site\r\n" +
-                    "Upgrade-Insecure-Requests: 1\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
-
-    fun invalidParseTestCase(): InputStream {
-        val validRequestString: String =
-            "get / HTTP/1.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
-
-    fun invalidParseTestCaseEmptyRequestLine(): InputStream {
-        val validRequestString: String =
-            "\r\n" + // Empty request
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
-
-    fun invalidParseTestCaseEmptyLineFeed(): InputStream {
-        val validRequestString: String =
-            "HEAD / HTTP/1.1\r" + // no linefeed
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
-
-    fun invalidMethodTestCase(): InputStream {
-        val validRequestString: String =
-            "GETTTTTTT / HTTP/1.1\r\n" +
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
-                    "Accept-Encoding: gzip, deflate, br\r\n" +
-                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\r\n" +
-                    "sec-ch-ua: \"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"\r\n" +
-                    "sec-ch-ua-mobile: ?0\r\n" +
-                    "\r\n"
-        return ByteArrayInputStream(
-            validRequestString.toByteArray(
-                StandardCharsets.US_ASCII
-            )
-        )
-    }
 }
-
-

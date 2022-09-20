@@ -1,6 +1,5 @@
 package com.babcock.http
 
-import com.babcock.log
 import com.babcock.testHelpers.Generator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -12,8 +11,6 @@ import com.babcock.testHelpers.Utils
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import kotlin.io.path.appendText
-import kotlin.io.path.isRegularFile
 
 internal class HttpParserTest {
 

@@ -9,14 +9,15 @@ import java.nio.file.Paths
 class Router {
 
 
-    fun handleTarget(request: HttpReq):FileInputStream { // find files instead of hard code, target params
+    fun handleTarget(request: HttpReq): FileInputStream { // find files instead of hard code, target params
         val target = getFile(request.requestTarget)
-        val requestTarget = when(target){
+        val requestTarget = when (target) {
 
             "not found" -> {
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
                 FileInputStream("src/main/resources/web_files/400/404.html")
             }
+
             else -> {
                 ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
                 FileInputStream(target)
@@ -37,17 +38,19 @@ class Router {
         val path: Path?
         val match = fileMatcher(file)
 
-        if (file == "/"){
+        if (file == "/") {
             path = Paths.get("src/main/resources/web_files/index.html")
 
-        } else if (match){
-           path = Paths.get(webRoot.toString(),target )
+        } else if (match) {
+            path = Paths.get(webRoot.toString(), target)
         } else {
             path = Paths.get(webRoot.toString(), "$target.html")
         }
-        return when(path?.let { Files.exists(it) }){
+        return when (path?.let { Files.exists(it) }) {
             true -> path.toString()
-            else -> {"not found"}
+            else -> {
+                "not found"
+            }
         }
     }
 

@@ -10,12 +10,12 @@ class HttpReq : HttpMsg() {
             httpVersion = value
             val temp = HttpVersion.getCompatibleVersion(value)
             if (temp != null) {
-                if (temp.MAJOR == 0){
+                if (temp.MAJOR == 0) {
                     println("Temp ${temp.VERSION}")
                     this.statusCode = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR
                     this.statusNumber = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.STATUS_CODE.toString()
                     this.statusMsg = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.MESSAGE
-                } else{
+                } else {
                     field = temp.toString()
                     println("Field: $field")
                 }
@@ -35,9 +35,9 @@ class HttpReq : HttpMsg() {
             }
         }
     var headers = HashMap<String, String>()
-    lateinit var statusCode:HttpStatusCode//lateinit  = HttpStatusCode.SUCCESS_200_OK
+    lateinit var statusCode: HttpStatusCode//lateinit  = HttpStatusCode.SUCCESS_200_OK
     lateinit var statusNumber: String//Int //= 200
-    lateinit var statusMsg:String //= "OK"
+    lateinit var statusMsg: String //= "OK"
 
 
     val body: String? = null

@@ -1,10 +1,7 @@
 package com.babcock.http
 
-import com.babcock.log
-import kotlinx.coroutines.*
 import java.io.FileInputStream
 import java.util.*
-import kotlin.properties.Delegates
 
 class HttpRes(request: HttpReq) {
     lateinit var statusCode:HttpStatusCode
@@ -30,10 +27,6 @@ class HttpRes(request: HttpReq) {
 
     }
 
-
-fun setStatus(request: HttpReq):HttpReq{
-    return request
-}
 
 
  fun responseHeaders(file:FileInputStream):String{

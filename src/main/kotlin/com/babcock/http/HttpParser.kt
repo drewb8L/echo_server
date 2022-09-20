@@ -104,7 +104,7 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
 
                 if (!parsedMethod || !parsedRequestTarget) {
                     request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
-                    request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                    request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                     request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                     return request
                     //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
@@ -114,7 +114,7 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
                     request.compatibleHttpVersion = dataBuffer.toString()
                 } catch (e: HttpParseException) {
                     request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
-                    request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                    request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                     request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                     //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                     return request
@@ -123,7 +123,7 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
 
             } else {
                 request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
-                request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                 request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                 //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
             }
@@ -140,7 +140,7 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
                 parsedRequestTarget = true
             } else {
                 request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
-                request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                 request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                 return request
                 //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
@@ -154,7 +154,7 @@ private fun parseRequestLine(reader: InputStreamReader, request: HttpReq): HttpR
 
     }
     request.statusCode = HttpStatusCode.SUCCESS_200_OK
-    request.statusNumber = HttpStatusCode.SUCCESS_200_OK.STATUS_CODE
+    request.statusNumber = HttpStatusCode.SUCCESS_200_OK.STATUS_CODE.toString()
     request.statusMsg = HttpStatusCode.SUCCESS_200_OK.MESSAGE
     return request
 

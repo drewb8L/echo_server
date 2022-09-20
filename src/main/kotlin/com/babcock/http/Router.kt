@@ -15,14 +15,20 @@ class Router() {
         val requestTarget = when(target){
 
             "not found" -> {
+                ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
                 FileInputStream("src/main/resources/web_files/400/404.html")
             }
             else -> {
+                ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
                 FileInputStream(target)
             }
         }
 
         return requestTarget
+    }
+
+    fun fileMatcher(path:String){
+
     }
 
     fun getFile(target: String): String {

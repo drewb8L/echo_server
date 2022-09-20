@@ -4,17 +4,16 @@ import com.babcock.log
 import com.babcock.testHelpers.Generator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.io.ByteArrayInputStream
-import java.io.FileInputStream
-import java.io.InputStream
-import java.nio.charset.StandardCharsets
-import java.util.*
 import kotlin.test.assertFailsWith
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import kotlin.io.path.Path
 import com.babcock.testHelpers.Utils
 import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import kotlin.io.path.appendText
+import kotlin.io.path.isRegularFile
 
 internal class HttpParserTest {
 
@@ -68,13 +67,13 @@ internal class HttpParserTest {
     @Test
     fun parseInvalidRequestEmptyReqLine() {
         val req = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
-        assertEquals(400, req.statusNumber)
+        assertEquals("web_files/400", req.statusNumber)
     }
 
     @Test
     fun parseInvalidRequestEmptyLineFeed() {
         val req = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyLineFeed())
-        assertEquals(400, req.statusNumber)
+        assertEquals("web_files/400", req.statusNumber)
     }
 
     @Test
@@ -94,14 +93,14 @@ internal class HttpParserTest {
     @Test
     fun parseInvalidHttpVersion() {
         val req = httpParser.parseHttpReq(Generator.invalidHttpVersionRequest())
-        assertEquals(505, req.statusNumber)
+        assertEquals("505", req.statusNumber)
 
     }
 
     @Test
     fun invalidHttpReqBadVersion() {
         val req = httpParser.parseHttpReq(Generator.invalidHttpVersionRequest())
-        assertEquals(505, req.statusNumber)
+        assertEquals("505", req.statusNumber)
 
 
     }
@@ -110,7 +109,7 @@ internal class HttpParserTest {
     fun invalidHttpReqBadMajorVersion() {
         var req = httpParser.parseHttpReq(Generator.unsupportedHttpVersionRequest())
         println(req.httpVersion)
-        assertEquals(505, req.statusNumber)
+        assertEquals("505", req.statusNumber)
 
     }
 
@@ -130,14 +129,15 @@ internal class HttpParserTest {
     @Test
     fun status200OK() {
         val request = httpParser.parseHttpReq(Generator.supportedHttpVersionRequest())
-        assertEquals(200, request.statusNumber)
+
     }
 
     @Test
     fun status400() {
         val request = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
-        assertEquals(400, request.statusNumber)
-        println(request.statusMsg)
+        val response = HttpRes(request)
+
+        assertEquals("web_files/400",response.statusNumber)
     }
 
 
@@ -146,6 +146,8 @@ internal class HttpParserTest {
         val file = Path("src/main/resources/web_files/index.html") // size = 530 bytes
         val req = HttpParser().parseHttpReq(Generator.validParseTestCase())
         val target = Router().handleTarget(req)
+
+        assertEquals("200", req.statusNumber.toString() )
 
         assert(target.available() >= 530)
         val output = Utils.getFileStream(file.toString())
@@ -160,6 +162,8 @@ internal class HttpParserTest {
         val req = HttpParser().parseHttpReq(Generator.validParseTestCaseTo404())
         val target = Router().handleTarget(req)
 
+        assertEquals("404", req.statusNumber.toString() )
+
         assert(target.available() >= 100)
         val output = Utils.getFileStream(file.toString())
         println(output)
@@ -170,16 +174,56 @@ internal class HttpParserTest {
     @Test
     fun routerFindPathByTarget(){
 
-        val target = "/" //index.html
         val req = HttpParser().parseHttpReq(Generator.validParseTestCase())
         val res = HttpRes(req)
         val responseHeadersAndBody = res.responseHeadersAndBody
         assertThat(responseHeadersAndBody, containsString("Welcome to Kotlin HTTP Server"))
+        assertEquals("200",res.statusNumber)
 
         val req2 = HttpParser().parseHttpReq(Generator.validParseTestCaseTo404())
         val res2 = HttpRes(req2)
         val responseHeadersAndBody2 = res2.responseHeadersAndBody
         assertThat(responseHeadersAndBody2, containsString("404 Not Found"))
+        assertEquals("404", res2.statusNumber)
+    }
+
+    @Test
+    fun routerFindByFullFileName(): Unit {
+        val req = HttpParser().parseHttpReq(Generator.fullFileName())
+        val res = HttpRes(req)
+        val responseHeadersAndBody = res.responseHeadersAndBody
+        assertThat(responseHeadersAndBody, containsString("Welcome to Kotlin HTTP Server"))
+
+
+    }
+
+    @Test
+    fun files() {
+        val target:String = "/".lowercase().trim()
+        val webRoot = Paths.get("src/main/resources/web_files")
+        var filePath: Path? = null
+
+        val pattern = Regex(".html")
+        val match = pattern.containsMatchIn(target)
+
+        if (target == "/") {
+            filePath = Paths.get("src/main/resources/web_files/index.html")
+        }else if (match){
+            filePath = Paths.get(webRoot.toString(), target)
+            log.logSuccess(filePath.toString())
+        }else if (!match){
+            filePath = Paths.get(webRoot.toString(),"$target.html")
+            log.logSuccess(filePath.toString())
+        }
+
+        when(filePath?.let { Files.exists(it) }){
+            true -> log.logWarning(filePath.toString())
+            else -> log.logError("not found")
+        }
+
+        assertEquals("src/main/resources/web_files/index.html", filePath.toString())
+
+
     }
 
 

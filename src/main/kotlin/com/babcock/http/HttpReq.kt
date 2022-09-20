@@ -13,7 +13,7 @@ class HttpReq : HttpMsg() {
                 if (temp.MAJOR == 0){
                     println("Temp ${temp.VERSION}")
                     this.statusCode = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR
-                    this.statusNumber = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.STATUS_CODE
+                    this.statusNumber = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.STATUS_CODE.toString()
                     this.statusMsg = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.MESSAGE
                 } else{
                     field = temp.toString()
@@ -27,7 +27,7 @@ class HttpReq : HttpMsg() {
         set(value) {
             if (value.isEmpty()) {
                 this.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
-                this.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE
+                this.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                 this.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                 //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
             } else {
@@ -35,9 +35,9 @@ class HttpReq : HttpMsg() {
             }
         }
     var headers = HashMap<String, String>()
-    var statusCode:HttpStatusCode = HttpStatusCode.SUCCESS_200_OK
-    var statusNumber: Int = 200
-    var statusMsg:String = "OK"
+    lateinit var statusCode:HttpStatusCode//lateinit  = HttpStatusCode.SUCCESS_200_OK
+    lateinit var statusNumber: String//Int //= 200
+    lateinit var statusMsg:String //= "OK"
 
 
     val body: String? = null

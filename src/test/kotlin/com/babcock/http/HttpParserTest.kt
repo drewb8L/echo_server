@@ -196,7 +196,6 @@ internal class HttpParserTest {
 
 
     }
-
     @Test
     fun files() {
         val target:String = "/test.html".lowercase().trim()
@@ -224,6 +223,13 @@ internal class HttpParserTest {
         assertEquals("src/main/resources/web_files/test.html", filePath.toString())
 
 
+    }
+
+    @Test
+    fun fileMatcher() {
+        val path:String = "/abc.html"
+        val pattern = Regex("html")
+        println(pattern.containsMatchIn(path))
     }
 
 

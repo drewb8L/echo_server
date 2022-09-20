@@ -1,13 +1,12 @@
 package com.babcock.http
 
-import java.io.File
 import java.io.FileInputStream
 import java.nio.file.Files
-import kotlin.io.path.Path
-import kotlin.properties.Delegates
+import java.nio.file.Path
+import java.nio.file.Paths
 
 
-class Router() {
+class Router {
 
 
     fun handleTarget(request: HttpReq):FileInputStream { // find files instead of hard code, target params
@@ -27,34 +26,30 @@ class Router() {
         return requestTarget
     }
 
-    fun fileMatcher(path:String){
-
+    fun fileMatcher(path: String): Boolean {
+        val pattern = Regex(".html")
+        return pattern.containsMatchIn(path)
     }
 
     fun getFile(target: String): String {
-        val webRoot = "src/main/resources/web_files"
-        val path = Path("$webRoot$target.html")
-        return if (target == "/"){
-            "src/main/resources/web_files/index.html"
+        val file = target.lowercase().trim()
+        val webRoot = Paths.get("src/main/resources/web_files")
+        val path: Path?
+        val match = fileMatcher(file)
+
+        if (file == "/"){
+            path = Paths.get("src/main/resources/web_files/index.html")
+
+        } else if (match){
+           path = Paths.get(webRoot.toString(),target )
         } else {
-            when (Files.exists(path)) {
-                true -> path.toString()
-                else -> {
-                    println(path)
-                    "not found"
-                }
-            }
+            path = Paths.get(webRoot.toString(), "$target.html")
+        }
+        return when(path?.let { Files.exists(it) }){
+            true -> path.toString()
+            else -> {"not found"}
         }
     }
 
-    fun handleErrorStatusCode(request: HttpReq){
-         when(request.statusCode){
-             HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST -> FileInputStream("src/main/resources/web_files/400/400.html")
-
-             else -> {
-
-             }
-         }
-    }
 
 }

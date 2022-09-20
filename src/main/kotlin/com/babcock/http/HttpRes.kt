@@ -17,9 +17,7 @@ class HttpRes(request: HttpReq) {
 
     init {
         this.version = request.httpVersion
-        if (request.statusCode != null){
-            println(request.statusCode)
-        }
+
         this.target = Router().handleTarget(request)
         try {
             this.statusCode = request.statusCode

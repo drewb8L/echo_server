@@ -64,13 +64,13 @@ internal class HttpParserTest {
     @Test
     fun parseInvalidRequestEmptyReqLine() {
         val req = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
-        assertEquals("web_files/400", req.statusNumber)
+        assertEquals("400", req.statusNumber)
     }
 
     @Test
     fun parseInvalidRequestEmptyLineFeed() {
         val req = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyLineFeed())
-        assertEquals("web_files/400", req.statusNumber)
+        assertEquals("400", req.statusNumber)
     }
 
     @Test
@@ -134,7 +134,7 @@ internal class HttpParserTest {
         val request = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
         val response = HttpRes(request)
 
-        assertEquals("web_files/400",response.statusNumber)
+        assertEquals("404",response.statusNumber)
     }
 
 

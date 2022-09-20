@@ -199,7 +199,7 @@ internal class HttpParserTest {
 
     @Test
     fun files() {
-        val target:String = "/".lowercase().trim()
+        val target:String = "/test.html".lowercase().trim()
         val webRoot = Paths.get("src/main/resources/web_files")
         var filePath: Path? = null
 
@@ -221,7 +221,7 @@ internal class HttpParserTest {
             else -> log.logError("not found")
         }
 
-        assertEquals("src/main/resources/web_files/index.html", filePath.toString())
+        assertEquals("src/main/resources/web_files/test.html", filePath.toString())
 
 
     }

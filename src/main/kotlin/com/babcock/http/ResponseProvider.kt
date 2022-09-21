@@ -19,8 +19,10 @@ class ResponseProvider(request: HttpReq, file: FileInputStream) {
         }
     }
 
-    fun allowedMethods(file:String){
+    fun allowedMethods():String{
 
+
+        return "Allow: GET, HEAD"
     }
 
     fun getResponse(request: HttpReq):String{
@@ -51,6 +53,10 @@ class ResponseProvider(request: HttpReq, file: FileInputStream) {
     }
 
     fun notImplementedResponse(){
+
+    }
+
+    fun notAllowedResponse(){
 
     }
 }

@@ -43,22 +43,14 @@ internal class HttpParserTest {
 
     @Test
     fun parseInvalidRequest() {
-        assertFailsWith<HttpParseException>(
-            message = "Not Implemented",
-            block = {
-                httpParser.parseHttpReq(Generator.invalidParseTestCase())
-            }
-        )
+        val req = httpParser.parseHttpReq(Generator.invalidMethodLowerCaseTestCase())
+        assertEquals("400", req.statusNumber)
     }
 
     @Test
     fun parseInvalidMethod() {
-        assertFailsWith<HttpParseException>(
-            message = "Not Implemented",
-            block = {
-                httpParser.parseHttpReq(Generator.invalidMethodTestCase())
-            }
-        )
+        val req = httpParser.parseHttpReq(Generator.invalidMethodTestCase())
+        assertEquals("400", req.statusNumber)
     }
 
     @Test
@@ -228,6 +220,11 @@ internal class HttpParserTest {
         val res = HttpRes(req)
         assertNotNull(res.path)
         assertThat(res.path.toString(), containsString("src/main/resources/web_files/index.html"))
+
+        val req2 = HttpParser().parseHttpReq((Generator.validParseTestCaseTo404()))
+        val res2 = HttpRes(req2)
+        assertNotNull(res2.path)
+        assertThat(res2.path.toString(), containsString("src/main/resources/web_files/400/404.html"))
     }
 
 

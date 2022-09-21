@@ -15,7 +15,7 @@ class Router {
 
             "not found" -> {
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
-                request.fullFilePath = Paths.get(target)
+                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html") // TODO: may be redundant or not needed.
                 FileInputStream("src/main/resources/web_files/400/404.html")
             }
 

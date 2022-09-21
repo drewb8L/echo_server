@@ -133,9 +133,9 @@ class HttpParser {
                         request.method = HttpMethod.convertToMethod(dataBuffer.toString())
 
                     }catch (e:HttpParseException){
-                        request.statusCode = HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED
-                        request.statusNumber = HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED.STATUS_CODE.toString()
-                        request.statusMsg = HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED.MESSAGE
+                        request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
+                        request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
+                        request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                     }
 
                     parsedMethod = true

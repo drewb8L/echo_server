@@ -17,7 +17,7 @@ git checkout http_server
 
 ### Note:
 This read me will be updated once gradle errors are resolved. As of now, using Intelij is the recomended was to build and run the server.
-# ____________________________________________
+# ___________________________________________
 
 Open repo in IntelliJ Idea and allow the IDE to install sdk and dependencies.
 Run the main function to start the server.

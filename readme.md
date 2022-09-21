@@ -1,20 +1,24 @@
-# Echo Server
-Echo server is a Kotlin application that returns the text a user inputs once connected.
+# Http Server
+Http server is a Kotlin application that can be used to serve files over the web
 
 ## Installation
 
 
 Clone the repo
 ```git
-git clone https://github.com/drewb8L/echo_server.git 
+git clone https://github.com/drewb8L/echo_server.git
+```
+Optionally, you can see the latest features with:
+```git
+git checkout http_server
 ```
 
 ## Usage
 
-Before you can connect to the server download a client like telnet if you don't already have a suitable client.
-```bash
-sudo apt install telnet
-```
+### Note:
+This read me will be updated once gradle errors are resolved. As of now, using Intelij is the recomended was to build and run the server.
+# ____________________________________________
+
 Open repo in IntelliJ Idea and allow the IDE to install sdk and dependencies.
 Run the main function to start the server.
 

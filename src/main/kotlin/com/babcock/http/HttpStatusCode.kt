@@ -6,6 +6,7 @@ enum class HttpStatusCode(val STATUS_CODE: Int, val MESSAGE: String = "Bad Reque
     CLIENT_ERROR_400_BAD_REQUEST(400, "Bad request"),
     CLIENT_ERROR_401_METHOD_NOT_ALLOWED(401, "Method Not Allowed"),
     CLIENT_ERROR_404_NOT_FOUND(404, "Not Found"),
+    CLIENT_ERROR_405_METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
     CLIENT_ERROR_414_BAD_REQUEST(414, "URI Too Long"),
 
     SERVER_ERROR_500_INTERNAL_SERVER_ERROR(500, "Internal Server Error"),

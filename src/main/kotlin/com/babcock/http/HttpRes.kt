@@ -28,7 +28,7 @@ class HttpRes(request: HttpReq) {
     }
 
 
-
+// create a class that deals with each response type
  fun responseHeaders(file:FileInputStream):String{
      val version = this.version
      val statusNumber = this.statusNumber
@@ -37,6 +37,7 @@ class HttpRes(request: HttpReq) {
      var contentType: String = "Content-Type: text/html$CRLF"
      val date = Date()
      val formattedDate = "Date: $date$CRLF"
+     val allowedMethods = "GET, POST, OPTIONS, HEAD"
 
      val contentLength = file.available().toString()
      val body = file.readAllBytes().toString(Charsets.UTF_8)

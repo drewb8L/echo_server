@@ -7,7 +7,7 @@ import kotlin.Throws
 
 
 enum class HttpMethod {
-    GET, HEAD;
+    GET, HEAD, POST, OPTIONS;
 
 
     companion object {
@@ -17,8 +17,10 @@ enum class HttpMethod {
             val code = when (method) {
                 "GET" -> GET
                 "HEAD" -> HEAD
+                "POST" -> POST
+                "OPTIONS" -> OPTIONS
                 else -> {
-                    throw HttpParseException(HttpStatusCode.SERVER_ERROR_501_NOT_IMPLEMENTED)
+                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)
                 }
             }
             return code

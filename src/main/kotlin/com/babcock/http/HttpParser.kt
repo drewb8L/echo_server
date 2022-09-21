@@ -129,7 +129,14 @@ class HttpParser {
             if (byte == SP) {
                 if (!parsedMethod) {
                     log.logWarning("Request line METHOD to process: $dataBuffer")
-                    request.method = HttpMethod.convertToMethod(dataBuffer.toString())
+                    try {
+                        request.method = HttpMethod.convertToMethod(dataBuffer.toString())
+
+                    }catch (e:HttpParseException){
+                        request.statusCode = HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED
+                        request.statusNumber = HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED.STATUS_CODE.toString()
+                        request.statusMsg = HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED.MESSAGE
+                    }
 
                     parsedMethod = true
                 } else if (!parsedRequestTarget) {

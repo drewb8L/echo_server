@@ -5,7 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-
+// TODO: explicit types
 class Router {
 
 
@@ -15,11 +15,13 @@ class Router {
 
             "not found" -> {
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
+                request.fullFilePath = Paths.get(target)
                 FileInputStream("src/main/resources/web_files/400/404.html")
             }
 
             else -> {
                 ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
+                request.fullFilePath = Paths.get(target)
                 FileInputStream(target)
             }
         }

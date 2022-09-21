@@ -1,6 +1,7 @@
 package com.babcock.http
 
 import java.io.FileInputStream
+import java.nio.file.Path
 import java.util.*
 
 class HttpRes(request: HttpReq) {
@@ -10,12 +11,14 @@ class HttpRes(request: HttpReq) {
     var version: String
     var target:FileInputStream? = null
     var responseHeadersAndBody:String? = null
+    var path: Path? = null
 
 
     init {
         this.version = request.httpVersion
 
         this.target = Router().handleTarget(request)
+        this.path = request.fullFilePath
         try {
             this.statusCode = request.statusCode
             this.statusMessage = statusCode.MESSAGE

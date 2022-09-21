@@ -223,10 +223,11 @@ internal class HttpParserTest {
     }
 
     @Test
-    fun fileMatcher() {
-        val path:String = "/abc.html"
-        val pattern = Regex("html")
-        println(pattern.containsMatchIn(path))
+    fun filePath() {
+        val req = HttpParser().parseHttpReq(Generator.fullFileName())
+        val res = HttpRes(req)
+        assertNotNull(res.path)
+        assertThat(res.path.toString(), containsString("src/main/resources/web_files/index.html"))
     }
 
 

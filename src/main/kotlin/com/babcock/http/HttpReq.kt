@@ -1,5 +1,7 @@
 package com.babcock.http
 
+import java.nio.file.Path
+
 
 class HttpReq : HttpMsg() {
     lateinit var method: HttpMethod
@@ -38,9 +40,9 @@ class HttpReq : HttpMsg() {
     lateinit var statusCode: HttpStatusCode//lateinit  = HttpStatusCode.SUCCESS_200_OK
     lateinit var statusNumber: String//Int //= 200
     lateinit var statusMsg: String //= "OK"
+    var fullFilePath: Path? = null
 
-
-    val body: String? = null
+    var body: String? = null
 
     fun requestToString(): String { // add headers
         return """

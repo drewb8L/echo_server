@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 val log = Log()
-
+//TODO: server port usage checking, increment port number by 1 if port is in use and ask for confirmation
 fun server(port: Int) {
     println("Echo Server")
     runBlocking {

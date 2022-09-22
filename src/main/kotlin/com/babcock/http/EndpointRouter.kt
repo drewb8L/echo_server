@@ -42,31 +42,22 @@ class EndpointRouter(endpoints: MutableMap<String, List<HttpMethod>> = EndpointM
     }
 
 
-    fun provideResource(request: HttpReq, target: String = request.requestTarget):String{   //FileInputStream {
-        //check method
+    fun provideResource(request: HttpReq, target: String = request.requestTarget): String{
+        //check method "$allowed is not allowed on ${endpoints[target].toString().removePrefix("[").removeSuffix("]")}"
         val allowed = request.method
         val allowedMethods = this.endpoints[target]?.let { (it.contains(allowed)) }
-        return if (allowedMethods != null && allowedMethods) {
-            "$allowed is allowed"
+        return if ((allowedMethods != null) && allowedMethods) {
+            // set response
+            ResponseStatus().setStatus(request,HttpStatusCode.SUCCESS_200_OK)
+            ResponseProvider(request).handleResponseByMethod()
 
-        } else "$allowed is not allowed on ${endpoints[target].toString().removePrefix("[").removeSuffix("]")}"
-        //set allow
+        } else {
+            ResponseStatus().setStatus(request,HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)
+            request.fullFilePath = Paths.get("src/main/resources/web_files/400/405.html")
+            ResponseProvider(request).notAllowedResponse()
+        }
 
-        // if allowed -> build response from method
-        // if not allowed -> build 405
-
-        // build response
     }
 
-
-
-
-
 }
-
-
-
-    //handle method is allowed
-
-    //handle build response
 

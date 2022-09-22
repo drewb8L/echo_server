@@ -4,30 +4,27 @@ import java.io.FileInputStream
 import java.util.*
 
 
-class ResponseProvider(request: HttpReq, file: FileInputStream) {
-    val file:FileInputStream // may need a nul check
-    val allow:String
+class ResponseProvider(request: HttpReq) {
+    var file:FileInputStream? = null  // may need a nul check
+    val request:HttpReq
+
     init {
-        this.file = file
-        this.allow = allowedMethods(request)
-        when(request.method){
+        this.request = request
+        //handleResponseByMethod()
+
+    }
+
+    fun handleResponseByMethod(request: HttpReq = this.request):String {
+        return when(request.method){
             HttpMethod.GET -> getResponse(request)
             HttpMethod.HEAD -> headResponse()
             HttpMethod.POST ->postResponse()
             HttpMethod.OPTIONS -> optionsResponse()
-            else -> {
-                notImplementedResponse()
-            }
+            HttpMethod.PUT -> putResponse()
         }
     }
 
-    fun allowedMethods(request: HttpReq):String{
-        val matcher = Regex("head_request")
-        // if GET to html -> GET HEAD OPTIONS
-        // if
-        return ""
 
-    }
 
     fun getResponse(request: HttpReq):String{
         val version:String = request.httpVersion
@@ -37,30 +34,50 @@ class ResponseProvider(request: HttpReq, file: FileInputStream) {
         var contentType: String = "Content-Type: text/html$CRLF"//TODO: Set programmatically based on file type
         val date:Date = Date()
         val formattedDate:String = "Date: $date$CRLF"
-        val allow:String = allowedMethods(request)
-        val contentLength:String = this.file.available().toString()
-        val body:String = this.file.readAllBytes().toString(Charsets.UTF_8)
+        val contentLength:String = this.file?.available().toString()
+        val body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8)
         return "$version $statusNumber$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength}${CRLF}${CRLF}$body"
     }
 
-    fun headResponse(){
-
+    fun headResponse():String{
+        TODO("Not yet implemented")
     }
 
-    fun postResponse(){
-
+    fun postResponse():String{
+        TODO("Not yet implemented")
     }
 
-
-    fun optionsResponse(){
-
+    private fun putResponse():String {
+        TODO("Not yet implemented")
     }
 
-    fun notImplementedResponse(){
-
+    fun optionsResponse():String{
+        TODO("Not yet implemented")
     }
 
-    fun notAllowedResponse(){
+    fun notImplementedResponse():String{
+        TODO("Not yet implemented")
+    }
 
+    fun notAllowedResponse():String {
+        val version:String = request.httpVersion
+        val statusNumber:String = request.statusNumber
+        val statusMessage:String = request.statusMsg
+        val CRLF: String = "\n\r"
+
+        val contentLength:String = this.file?.available().toString()
+        //val body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8) ?:
+        return "$version $statusNumber $statusMessage${CRLF}${CRLF}"
+    }
+
+    fun notFound404(): String {
+        val version:String = request.httpVersion
+        val statusNumber:String = request.statusNumber
+        val statusMessage:String = request.statusMsg
+        val CRLF: String = "\n\r"
+
+        val contentLength:String = this.file?.available().toString()
+        val body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8)
+        return "$version $statusNumber$CRLF${CRLF}${CRLF}$body"
     }
 }

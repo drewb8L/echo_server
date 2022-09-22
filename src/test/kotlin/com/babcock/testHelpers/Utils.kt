@@ -1,6 +1,7 @@
 package com.babcock.testHelpers
 
 import com.babcock.Log
+import com.babcock.http.HttpReq
 import java.io.FileInputStream
 import java.lang.Exception
 import java.lang.StringBuilder
@@ -29,6 +30,12 @@ object Utils {
             input.close()
         }
         return output.toString()
+    }
+
+    fun targetParser(request:HttpReq){
+
+        val target = request.requestTarget
+
 
     }
 

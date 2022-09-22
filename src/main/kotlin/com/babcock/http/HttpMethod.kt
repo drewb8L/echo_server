@@ -7,7 +7,7 @@ import kotlin.Throws
 
 
 enum class HttpMethod {
-    GET, HEAD, POST, OPTIONS;
+    GET, HEAD, POST, OPTIONS, PUT;
 
 
     companion object {
@@ -19,8 +19,9 @@ enum class HttpMethod {
                 "HEAD" -> HEAD
                 "POST" -> POST
                 "OPTIONS" -> OPTIONS
+                "PUT" ->  PUT
                 else -> {
-                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)
+                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)//TODO: change to set status code on response
                 }
             }
             return code

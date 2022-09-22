@@ -17,7 +17,7 @@ class HttpRes(request: HttpReq) {
     init {
         this.version = request.httpVersion
 
-        this.target = Router().handleTarget(request)
+        this.target = Router().getFileOrResource(request)
         this.path = request.fullFilePath
         try {
             this.statusCode = request.statusCode
@@ -31,7 +31,7 @@ class HttpRes(request: HttpReq) {
     }
 
 
-// create a class that deals with each response type
+// ResponseProvider() will handle this
  fun responseHeaders(file:FileInputStream):String{
      val version = this.version
      val statusNumber = this.statusNumber

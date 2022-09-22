@@ -1,5 +1,6 @@
 package com.babcock.http
 
+import kotlinx.coroutines.yield
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Path
@@ -9,24 +10,12 @@ import java.nio.file.Paths
 class Router {
 
 
-    fun handleTarget(request: HttpReq): FileInputStream { // find files instead of hard code, target params
-        val target = getFile(request.requestTarget)
-        val requestTarget = when (target) {
+    fun handleFileTarget(request: HttpReq, path: String): FileInputStream {
 
-            "not found" -> {
-                ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
-                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html") // TODO: may be redundant or not needed.
-                FileInputStream("src/main/resources/web_files/400/404.html")
-            }
+        ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
+        request.fullFilePath = Paths.get(path)
+        return FileInputStream(path)
 
-            else -> {
-                ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
-                request.fullFilePath = Paths.get(target)
-                FileInputStream(target)
-            }
-        }
-
-        return requestTarget
     }
 
     fun fileMatcher(path: String): Boolean {
@@ -34,26 +23,27 @@ class Router {
         return pattern.containsMatchIn(path)
     }
 
-    fun getFile(target: String): String {
+    fun getFileOrResource(request: HttpReq, target: String = request.requestTarget): FileInputStream? {
         val file = target.lowercase().trim()
         val webRoot = Paths.get("src/main/resources/web_files")
-        val path: Path?
+        var path: Path
         val match = fileMatcher(file)
+        var resource:FileInputStream? = null
 
-        if (file == "/") {
-            path = Paths.get("src/main/resources/web_files/index.html")
-
+        if (EndpointRouter().isValidEndpoint(target)) {
+            path = Paths.get(webRoot.toString(), target)
+            //resource = EndpointRouter().provideResource(request, path.toString())
         } else if (match) {
             path = Paths.get(webRoot.toString(), target)
-        } else {
-            path = Paths.get(webRoot.toString(), "$target.html")
-        }
-        return when (path?.let { Files.exists(it) }) {
-            true -> path.toString()
-            else -> {
-                "not found"
+            if (Files.exists(path)) {
+                resource = handleFileTarget(request, path.toString())
+            } else {
+                ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
+                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
+                resource = FileInputStream("src/main/resources/web_files/400/404.html")
             }
         }
+        return resource
     }
 
 

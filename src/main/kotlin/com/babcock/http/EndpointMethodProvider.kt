@@ -12,7 +12,7 @@ object EndpointMethodProvider {
         "/" to listOf<HttpMethod>(HttpMethod.GET,HttpMethod.HEAD),
         "/simple_get" to listOf<HttpMethod>(HttpMethod.GET,HttpMethod.HEAD),
         "/simple_get_with_body" to listOf<HttpMethod>(HttpMethod.GET),
-        "/head_request" to listOf<HttpMethod>(HttpMethod.HEAD),
+        "/head_request" to listOf<HttpMethod>(HttpMethod.HEAD, HttpMethod.OPTIONS),
         "/method_options" to listOf<HttpMethod>(HttpMethod.GET,HttpMethod.HEAD,HttpMethod.OPTIONS),
         "/method_options2" to listOf<HttpMethod>(HttpMethod.GET,HttpMethod.HEAD,HttpMethod.OPTIONS,HttpMethod.POST),
         "/echo_body" to listOf<HttpMethod>(HttpMethod.POST),

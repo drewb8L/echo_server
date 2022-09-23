@@ -47,8 +47,11 @@ class Router {
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
                 request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
                 ResponseProvider(request).notFound404()
-
             }
+        }else{
+            ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
+            request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
+            ResponseProvider(request).notFound404()
         }
 
     }

@@ -12,7 +12,7 @@ class HttpRes(request: HttpReq) {
     var target:FileInputStream? = null
     var responseHeadersAndBody:String? = null
     var path: Path? = null
-
+    var body: FileInputStream? = null
 
     init {
 

@@ -63,10 +63,10 @@ class ResponseProvider(request: HttpReq) {
         val statusNumber:String = request.statusNumber
         val statusMessage:String = request.statusMsg
         val CRLF: String = "\n\r"
-
+        val allowed:String = "Allow: ${EndpointMethodProvider.endpointList[request.requestTarget].toString().removePrefix("[").removeSuffix("]")}\n\r"
         val contentLength:String = this.file?.available().toString()
-        //val body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8) ?:
-        return "$version $statusNumber $statusMessage${CRLF}${CRLF}"
+        val body:String = ""
+        return "$version $statusNumber $statusMessage${CRLF}$allowed${CRLF}${CRLF}$body"
     }
 
     fun notFound404(): String {

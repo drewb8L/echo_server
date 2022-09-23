@@ -131,40 +131,7 @@ internal class HttpParserTest {
     }
 
 
-//    @Test
-//    fun routingToIndex() {
-//        val file = Path("src/main/resources/web_files/index.html") // size = 530 bytes
-//        val req = httpParser.parseHttpReq(Generator.validParseTestCase())
-//        val target = Router().getFileOrResource(req)
 //
-//        assertEquals("200", req.statusNumber.toString() )
-//
-//        if (target != null) {
-//            assert(target.available() >= 530)
-//        }
-//        val output = Utils.getFileStream(file.toString())
-//        println(output)
-//
-//        assertThat(output, containsString("Kotlin HTTP Server"))
-//    }
-//
-//    @Test
-//    fun routingTo404() {
-//        val file = Path("src/main/resources/web_files/400/404.html") //size = 124
-//        val req = httpParser.parseHttpReq(Generator.validParseTestCaseTo404())
-//        val target = Router().getFileOrResource(req)
-//
-//        assertEquals("404", req.statusNumber.toString() )
-//
-//        if (target != null) {
-//            assert(target.available() >= 100)
-//        }
-//        val output = Utils.getFileStream(file.toString())
-//        println(output)
-//
-//        assertThat(output, containsString("404 Not Found"))
-//
-//    }
     @Test
     fun routerFindPathByTarget(){
 

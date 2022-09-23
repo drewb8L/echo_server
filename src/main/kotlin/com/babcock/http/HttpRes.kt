@@ -8,9 +8,9 @@ class HttpRes(request: HttpReq) {
     lateinit var statusMessage:String
     lateinit var statusNumber:String
     lateinit var version: String
-    lateinit var target: Path
+    lateinit var target: String
     lateinit var responseHeadersAndBody:String
-    lateinit var path: Path
+    lateinit var path: String
     lateinit var body: FileInputStream//? = null
     var request = request
 

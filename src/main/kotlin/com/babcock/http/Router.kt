@@ -41,7 +41,7 @@ var request = request
         val matchFile = fileMatcher(file)
         if(target == "/"){
             path = Paths.get("$webRoot${target}index.html")
-            request.fullFilePath = Paths.get(path.toString())
+            request.fullFilePath = Paths.get(path.toString()).toString()
             ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
             ResponseProvider(request).getResponse(request)
         }
@@ -49,12 +49,12 @@ var request = request
         if (matchFile) {
             path = Paths.get(webRoot.toString(), target)
             if (Files.exists(path)) {
-                request.fullFilePath = path
+                request.fullFilePath = path.toString()
                 handleFileTarget(request, request.fullFilePath.toString())
                 ResponseProvider(request).headResponse(request)
             } else {
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
-                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
+                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html").toString()
                 ResponseProvider(request).notFound404()
             }
         }
@@ -69,28 +69,28 @@ var request = request
 
         if(target == "/"){
             path = Paths.get("$webRoot${target}index.html")
-            request.fullFilePath = Paths.get(path.toString())
+            request.fullFilePath = Paths.get(path.toString()).toString()
             ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
             ResponseProvider(request).getResponse(request)
         } else if (EndpointRouter().isValidEndpoint(target)) {
             path = Paths.get(webRoot.toString(), target)
-            request.fullFilePath = Paths.get("$path")
+            request.fullFilePath = Paths.get("$path").toString()
             EndpointRouter().provideResource(request, request.fullFilePath.toString())
 
 
         } else if (matchFile) {
             path = Paths.get(webRoot.toString(), target)
             if (Files.exists(path)) {
-                request.fullFilePath = path
+                request.fullFilePath = path.toString()
                 handleFileTarget(request, request.fullFilePath.toString())
             } else {
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
-                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
+                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html").toString()
                 ResponseProvider(request).notFound404()
             }
         }else{
             ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
-            request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
+            request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html").toString()
             ResponseProvider(request).notFound404()
         }
 //separate
@@ -104,25 +104,25 @@ var request = request
         var isResourceFound = false
 
         while (!isResourceFound) {
-            if (resource == "/") { //handles root index.html
+            if (resource == "/") { //handles root/
                 setFilePathToIndex(path, webRoot, resource)
                 ResponseProvider(request).handleResponseByMethod()
                 break
-            }
 
-            if (fileMatcher(resource) && Files.exists(path).and(!Files.isDirectory(path)) ){ // handles root .html files
-                request.fullFilePath = path
-                ResponseProvider(request).handleResponseByMethod()
-                break
+
+//            if (fileMatcher(resource) && Files.exists(path).and(!Files.isDirectory(path)) ){ // handles root .html files
+//                request.fullFilePath = path
+//                ResponseProvider(request).handleResponseByMethod()
+//                break
 
             }else{
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
-                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
+                request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html").toString()
                 ResponseProvider(request).notFound404()
             }
 
             if (endpointMatcher(resource) && Files.isDirectory(path)){ //handles endpoints
-                request.fullFilePath = Paths.get("$path")
+                request.fullFilePath = Paths.get("$path").toString()
                 EndpointRouter().provideResource(request, request.fullFilePath.toString()) // TODO: <- setting valid endpoints to 405
                 }
                 isResourceFound = true
@@ -134,7 +134,7 @@ var request = request
     private fun setFilePathToIndex(path: Path, webRoot: Path?, resource: String) {
         var filePath = path
         filePath = Paths.get("$webRoot${resource}index.html")
-        request.fullFilePath = Paths.get(filePath.toString())
+        request.fullFilePath = Paths.get(filePath.toString()).toString()
         ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
         ResponseProvider(request).getResponse(request)
 

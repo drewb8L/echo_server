@@ -39,7 +39,7 @@ class HttpReq : HttpMsg() {
     lateinit var statusCode: HttpStatusCode//lateinit  = HttpStatusCode.SUCCESS_200_OK
     lateinit var statusNumber: String//Int //= 200
     lateinit var statusMsg: String //= "OK"
-    var fullFilePath: Path? = null
+    var fullFilePath: String = ""
 
     var body: String? = null
 

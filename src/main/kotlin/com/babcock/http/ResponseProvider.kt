@@ -13,7 +13,7 @@ class ResponseProvider(request: HttpReq) {
 
     init {
         this.request = request
-        this.file = FileInputStream(request.fullFilePath.toString())
+        //this.file = FileInputStream(request.fullFilePath)
     }
 
     fun handleResponseByMethod(request: HttpReq = this.request):String {
@@ -37,10 +37,13 @@ class ResponseProvider(request: HttpReq) {
         val contentType: String = "Content-Type: text/html$CRLF"
         val date:Date = Date()
         val formattedDate:String = "Date: $date$CRLF"
-        //val contentLength:String = this.file?.available().toString()
-        //var body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8)
-        val (body2: String, contentLength: String) = bodyAndLength("Hello world")
-        return "$version $statusNumber $statusMsg$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength}${CRLF}${CRLF}$body2"
+        return if(request.requestTarget == "/simple_get_with_body" || request.requestTarget == "/"){
+            val (body: String, contentLength: String) = bodyAndLength("Hello world")
+            "$version $statusNumber $statusMsg$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength}${CRLF}${CRLF}$body"
+        }else{
+            val (body: String, contentLength: String) = bodyAndLength("")
+        "$version $statusNumber $statusMsg$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength}${CRLF}${CRLF}$body"
+        }
     }
 
     private fun bodyAndLength(msg:String): Pair<String, String> {
@@ -48,15 +51,16 @@ class ResponseProvider(request: HttpReq) {
         val body2: String = resBody.readAllBytes().toString(Charsets.UTF_8)
         val contentLength: String = body2.length.toString()
         return Pair(body2, contentLength)
-    } //replaces
+    }
 
     fun headResponse(request: HttpReq):String{
         val version:String = request.httpVersion
         val statusNumber:String = request.statusCode.STATUS_CODE.toString()
         val statusMsg:String = request.statusCode.MESSAGE
         val CRLF: String = "\r\n"
-
-        return "$version $statusNumber $statusMsg$CRLF${CRLF}${CRLF}"
+        val date:Date = Date()
+        val formattedDate:String = "Date: $date$CRLF"
+        return "$version $statusNumber $statusMsg$CRLF${formattedDate}${CRLF}${CRLF}"
     }
 
     fun postResponse():String{
@@ -82,6 +86,7 @@ class ResponseProvider(request: HttpReq) {
         val statusNumber:String = request.statusNumber
         val statusMessage:String = request.statusMsg
         val CRLF: String = "\r\n"
+
         val allowed:String = "Allow: ${EndpointMethodProvider.endpointList[request.requestTarget].toString().removePrefix("[").removeSuffix("]")}\n\r"
         return "$version $statusNumber $statusMessage${CRLF}$allowed${CRLF}${CRLF}"
     }

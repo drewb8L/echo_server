@@ -11,7 +11,7 @@ class HttpRes(request: HttpReq) {
     lateinit var target: String
     lateinit var responseHeadersAndBody:String
     lateinit var path: String
-    lateinit var body: FileInputStream//? = null
+    var body: String = ""
     var request = request
 
     init {
@@ -20,22 +20,21 @@ class HttpRes(request: HttpReq) {
         try {
             Router(this.request).handleResourceType() //.getFileOrResource(this.request)
             if(this.request.statusCode == HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND){
-                this.target = request.fullFilePath!! //= FileInputStream("${request.fullFilePath}")
+                this.target = request.fullFilePath //= FileInputStream("${request.fullFilePath}")
                 this.version = request.httpVersion
-                this.path = request.fullFilePath!!
+                this.path = request.fullFilePath
                 this.statusCode = request.statusCode
                 this.statusMessage = statusCode.MESSAGE
-                this.body = FileInputStream(target.toString())
                 this.statusNumber = statusCode.STATUS_CODE.toString()
                 responseHeadersAndBody = ResponseProvider(this.request).notFound404()
             }else {
                 responseHeadersAndBody = EndpointRouter().provideResource(request)
-                this.target = request.fullFilePath!! //FileInputStream("${request.fullFilePath}")
+                this.target = request.fullFilePath //FileInputStream("${request.fullFilePath}")
                 this.version = request.httpVersion
-                this.path = request.fullFilePath!!
+                this.path = request.fullFilePath
                 this.statusCode = request.statusCode
                 this.statusMessage = statusCode.MESSAGE
-                this.body = FileInputStream(target.toString())
+                this.body = request.body.toString()
                 this.statusNumber = statusCode.STATUS_CODE.toString()
 
             }

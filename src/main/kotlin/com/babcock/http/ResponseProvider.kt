@@ -39,9 +39,11 @@ class ResponseProvider(request: HttpReq) {
         val formattedDate:String = "Date: $date$CRLF"
         return if(request.requestTarget == "/simple_get_with_body" || request.requestTarget == "/"){
             val (body: String, contentLength: String) = bodyAndLength("Hello world")
+            this.request.body = body
             "$version $statusNumber $statusMsg$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength}${CRLF}${CRLF}$body"
         }else{
             val (body: String, contentLength: String) = bodyAndLength("")
+            this.request.body = body
         "$version $statusNumber $statusMsg$CRLF$conn$contentType${formattedDate}Content-Length: ${contentLength}${CRLF}${CRLF}$body"
         }
     }
@@ -72,7 +74,15 @@ class ResponseProvider(request: HttpReq) {
     }
 
     fun optionsResponse():String{
-        TODO("Not yet implemented")
+        request.body = ""
+        val version:String = request.httpVersion
+        val statusNumber:String = request.statusCode.STATUS_CODE.toString()
+        val statusMsg:String = request.statusCode.MESSAGE
+        val allowed:String = "Allow: ${EndpointMethodProvider.endpointList[request.requestTarget].toString().removePrefix("[").removeSuffix("]")}\n\r"
+        val CRLF: String = "\r\n"
+        val date:Date = Date()
+        val formattedDate:String = "Date: $date$CRLF"
+        return "$version $statusNumber $statusMsg$CRLF${formattedDate}$allowed${CRLF}${CRLF}"
     }
 
     fun notImplementedResponse():String{
@@ -86,9 +96,10 @@ class ResponseProvider(request: HttpReq) {
         val statusNumber:String = request.statusNumber
         val statusMessage:String = request.statusMsg
         val CRLF: String = "\r\n"
-
+        request.body = ""
+        val body = request.body
         val allowed:String = "Allow: ${EndpointMethodProvider.endpointList[request.requestTarget].toString().removePrefix("[").removeSuffix("]")}\n\r"
-        return "$version $statusNumber $statusMessage${CRLF}$allowed${CRLF}${CRLF}"
+        return "$version $statusNumber $statusMessage${CRLF}$allowed${CRLF}${CRLF}$body"
     }
 
     fun notFound404(): String {
@@ -98,8 +109,7 @@ class ResponseProvider(request: HttpReq) {
         val CRLF: String = "\r\n"
         val date:Date = Date()
         val formattedDate:String = "Date: $date$CRLF"
-        val contentLength:String = this.file?.available().toString()
-        val body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8)
+
         return "$version $statusNumber $statusMessage${CRLF}$formattedDate${CRLF}"
     }
 }

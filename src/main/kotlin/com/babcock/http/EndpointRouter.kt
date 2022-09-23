@@ -40,11 +40,17 @@ class EndpointRouter(endpoints: MutableMap<String, List<HttpMethod>> = EndpointM
                 request.fullFilePath = Path.of("$webRoot${target}").toString()
                 return ResponseProvider(request).handleResponseByMethod()
 
-            }else if(allowedMethods?.contains(request.method) == true && allowed == HttpMethod.HEAD){
+            }else if(allowedMethods?.contains(request.method) == true && allowed == HttpMethod.HEAD) {
 
                 ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
                 request.fullFilePath = Path.of("$webRoot${target}").toString()
                 return ResponseProvider(request).handleResponseByMethod()
+
+            }else if(allowedMethods?.contains(request.method) == true && allowed == HttpMethod.OPTIONS){
+                ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
+                request.fullFilePath = Path.of("$webRoot${target}").toString()
+                return ResponseProvider(request).handleResponseByMethod()
+
             } else {
                 ResponseStatus().setStatus(request,HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)
                 request.fullFilePath = Path.of("src/main/resources/web_files/400/405.html").toString()

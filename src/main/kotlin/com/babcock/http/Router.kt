@@ -93,7 +93,7 @@ var request = request
             request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html")
             ResponseProvider(request).notFound404()
         }
-
+//separate
     }
 
     fun handleResourceType() {

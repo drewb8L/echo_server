@@ -48,7 +48,6 @@ class HttpParser {
                 when (byte) {
                     0x03a -> {
                         val temp = dataBufferProcess.toString().trim()
-                        println("Key:$temp")
                         name = temp
 
                         dataBufferProcess.delete(0, dataBufferProcess.length)
@@ -56,7 +55,6 @@ class HttpParser {
 
                     0x0d -> {
                         val temp = dataBufferProcess.toString().trim()
-                        println("VALUE:$temp")
                         content = temp
                         dataBufferProcess.delete(0, dataBufferProcess.length)
                     }
@@ -64,7 +62,6 @@ class HttpParser {
                     (0x0a) -> {
                         byte = reader.read()
                         if (byte == 0x0d) {
-                            println("End")
                             break
                         } else {
                             dataBufferProcess.append(byte.toChar())
@@ -79,11 +76,6 @@ class HttpParser {
                 }
             }
         }
-
-//        println(dataBufferProcess.toString())
-//        for (i in request.headers) {
-//            println(i)
-//        }
 
 
     }

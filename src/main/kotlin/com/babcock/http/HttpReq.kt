@@ -13,7 +13,6 @@ class HttpReq : HttpMsg() {
             val temp = HttpVersion.getCompatibleVersion(value)
             if (temp != null) {
                 if (temp.MAJOR == 0) {
-                    println("Temp ${temp.VERSION}")
                     this.statusCode = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR
                     this.statusNumber = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.STATUS_CODE.toString()
                     this.statusMsg = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.MESSAGE

@@ -39,7 +39,6 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
                         if (version.MINOR < minor) {
 
                             tempCompatibleVersion = HTTP_1_1
-                            println("Version temp: $tempCompatibleVersion")
                             break
                         }
                     }

@@ -15,9 +15,13 @@ class HttpParser {
         val reader = InputStreamReader(inputStream, StandardCharsets.US_ASCII)
         val request = HttpReq()
 
+
+
         parseRequestLine(reader, request)
         parseHeaders(reader, request)
-
+        request.statusCode = HttpStatusCode.SUCCESS_200_OK
+        request.statusNumber = HttpStatusCode.SUCCESS_200_OK.STATUS_CODE.toString()
+        request.statusMsg = HttpStatusCode.SUCCESS_200_OK.MESSAGE
         return request
 
     }
@@ -76,10 +80,10 @@ class HttpParser {
             }
         }
 
-        println(dataBufferProcess.toString())
-        for (i in request.headers) {
-            println(i)
-        }
+//        println(dataBufferProcess.toString())
+//        for (i in request.headers) {
+//            println(i)
+//        }
 
 
     }
@@ -140,8 +144,8 @@ class HttpParser {
 
                     parsedMethod = true
                 } else if (!parsedRequestTarget) {
-                    log.logWarning("Request line TARGET to process: $dataBuffer")
-                    request.requestTarget = dataBuffer.toString()
+                    request.requestTarget = "$dataBuffer"//dataBuffer.toString()
+                    log.logWarning("Request line TARGET to process: ${request.requestTarget}")
                     parsedRequestTarget = true
                 } else {
                     request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
@@ -150,17 +154,17 @@ class HttpParser {
                     return request
                     //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                 }
-                log.logSuccess("delete buffer")
+
                 dataBuffer.delete(0, dataBuffer.length)
             } else {
                 dataBuffer.append(byte.toChar())
 
             }
 
+
         }
-        request.statusCode = HttpStatusCode.SUCCESS_200_OK
-        request.statusNumber = HttpStatusCode.SUCCESS_200_OK.STATUS_CODE.toString()
-        request.statusMsg = HttpStatusCode.SUCCESS_200_OK.MESSAGE
+
+
         return request
 
     }

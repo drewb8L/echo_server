@@ -19,7 +19,7 @@ class HttpReq : HttpMsg() {
                     this.statusMsg = HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR.MESSAGE
                 } else {
                     field = temp.toString()
-                    println("Field: $field")
+
                 }
 
 

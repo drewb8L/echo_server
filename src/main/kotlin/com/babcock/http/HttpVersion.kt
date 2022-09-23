@@ -13,7 +13,7 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
     companion object {
         var httpVersionPattern: Pattern = Pattern.compile("^HTTP/(?<major>\\d+).(?<minor>\\d+)")
         fun getCompatibleVersion(inputVersion: String): HttpVersion? {
-            println("Getting version from input: $inputVersion")
+
             val matcher: Matcher = httpVersionPattern.matcher(inputVersion)
             if (!matcher.find() || matcher.groupCount() != 2) {
 
@@ -22,12 +22,12 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
             }
             val major = matcher.group("major").toInt()
             val minor = matcher.group("minor").toInt()
-            println("${major}/${minor}")
+
             var tempCompatibleVersion: HttpVersion? = null
 
             for (version: HttpVersion in HttpVersion.values()) {
                 if (version.VERSION == inputVersion) {
-                    println("Returning version")
+
                     return version
                 } else if (version.MAJOR > major) {
                     return HTTP_0_0
@@ -37,7 +37,7 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
                 } else {
                     if (version.MAJOR == major) {
                         if (version.MINOR < minor) {
-                            println("Version: $version")
+
                             tempCompatibleVersion = HTTP_1_1
                             println("Version temp: $tempCompatibleVersion")
                             break
@@ -45,7 +45,6 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
                     }
                 }
             }
-            println("Last value of temp compatible version $tempCompatibleVersion")
             return tempCompatibleVersion
         }
     }

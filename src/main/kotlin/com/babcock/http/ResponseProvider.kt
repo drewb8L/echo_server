@@ -48,7 +48,7 @@ class ResponseProvider(request: HttpReq) {
         val body2: String = resBody.readAllBytes().toString(Charsets.UTF_8)
         val contentLength: String = body2.length.toString()
         return Pair(body2, contentLength)
-    }
+    } //replaces
 
     fun headResponse(request: HttpReq):String{
         val version:String = request.httpVersion

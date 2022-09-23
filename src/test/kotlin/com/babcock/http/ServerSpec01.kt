@@ -41,6 +41,7 @@ internal class ServerSpec01 {
     fun simple_get(){
         val request = httpParser.parseHttpReq(Generator.getRequestToSimpleGet())
         val response = HttpRes(request)
+        println(response.toString())
         /*
          Given I make a GET request to "/simple_get"
         Then my response should have status code 200

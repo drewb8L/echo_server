@@ -46,5 +46,18 @@ class HttpRes(request: HttpReq) {
 
     }
 
+    override fun toString(): String {
 
+
+        return """
+            |***Response***
+            |Status code:${statusCode.STATUS_CODE}
+            |Status msg:${statusCode.MESSAGE}
+            |Target: ${target.toString()}
+            |Path: ${path.toString()}
+            |*** Headers and Body
+            |${responseHeadersAndBody}
+            |***End Response***
+            |""".trimMargin()
+    }
 }

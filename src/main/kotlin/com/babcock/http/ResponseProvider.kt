@@ -30,7 +30,7 @@ class ResponseProvider(request: HttpReq) {
         val version:String = request.httpVersion
         val statusNumber:String = request.statusCode.STATUS_CODE.toString()
         val statusMsg:String = request.statusCode.MESSAGE
-        val CRLF: String = "\n\r"
+        val CRLF: String = "\r\n"
         val conn:String = "Connection: Keep-Alive${CRLF}"
         val contentType: String = "Content-Type: text/html$CRLF"//TODO: Set programmatically based on file type
         val date:Date = Date()

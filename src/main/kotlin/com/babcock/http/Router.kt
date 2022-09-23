@@ -123,7 +123,6 @@ var request = request
 
             if (endpointMatcher(resource) && Files.isDirectory(path)){ //handles endpoints
                 request.fullFilePath = Paths.get("$path")
-                println(request.fullFilePath)
                 EndpointRouter().provideResource(request, request.fullFilePath.toString()) // TODO: <- setting valid endpoints to 405
                 }
                 isResourceFound = true

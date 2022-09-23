@@ -5,13 +5,12 @@ import java.util.*
 
 
 class ResponseProvider(request: HttpReq) {
-    var file:FileInputStream? = null  // may need a nul check
+    var file:FileInputStream? = null
     val request:HttpReq
 
     init {
         this.request = request
-        //handleResponseByMethod()
-
+        this.file = FileInputStream(request.fullFilePath.toString())
     }
 
     fun handleResponseByMethod(request: HttpReq = this.request):String {
@@ -78,6 +77,6 @@ class ResponseProvider(request: HttpReq) {
 
         val contentLength:String = this.file?.available().toString()
         val body:String? = this.file?.readAllBytes()?.toString(Charsets.UTF_8)
-        return "$version $statusNumber$CRLF${CRLF}${CRLF}$body"
+        return "$version $statusNumber $statusMessage${CRLF}${CRLF}"
     }
 }

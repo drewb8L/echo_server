@@ -29,9 +29,9 @@ class HttpRes(request: HttpReq) {
                 this.statusNumber = statusCode.STATUS_CODE.toString()
                 responseHeadersAndBody = ResponseProvider(this.request).postResponse()
             }
-            Router(this.request).handleResourceType() //.getFileOrResource(this.request)
+            Router(this.request).handleResourceType()
             if (this.request.statusCode == HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND) {
-                this.target = request.fullFilePath //= FileInputStream("${request.fullFilePath}")
+                this.target = request.fullFilePath
                 this.version = request.httpVersion
                 this.path = request.fullFilePath
                 this.statusCode = request.statusCode
@@ -39,9 +39,9 @@ class HttpRes(request: HttpReq) {
                 this.statusNumber = statusCode.STATUS_CODE.toString()
                 responseHeadersAndBody = ResponseProvider(this.request).notFound404()
             } else {
-                if (request.method != HttpMethod.POST) {
+                if (request.method != HttpMethod.POST && request.requestTarget != "/redirect") {
                     responseHeadersAndBody = EndpointRouter().provideResource(request)
-                    this.target = request.fullFilePath //FileInputStream("${request.fullFilePath}")
+                    this.target = request.fullFilePath
                     this.version = request.httpVersion
                     this.path = request.fullFilePath
                     this.statusCode = request.statusCode
@@ -49,7 +49,17 @@ class HttpRes(request: HttpReq) {
                     this.body = request.body.trim()
                     this.statusNumber = statusCode.STATUS_CODE.toString()
                 }
+            }
 
+            if (request.method == HttpMethod.GET && request.requestTarget == "/redirect"){
+                this.target = request.fullFilePath
+                this.version = request.httpVersion
+                this.path = request.fullFilePath
+                this.statusCode = request.statusCode
+                this.statusMessage = statusCode.MESSAGE
+                this.body = request.body.trim()
+                this.statusNumber = statusCode.STATUS_CODE.toString()
+                responseHeadersAndBody = ResponseProvider(this.request).redirect()
             }
         } catch (e: Throwable) {
             e.printStackTrace()

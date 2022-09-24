@@ -13,7 +13,6 @@ class ResponseProvider(request: HttpReq) {
 
     init {
         this.request = request
-        //this.file = FileInputStream(request.fullFilePath)
     }
 
     fun handleResponseByMethod(request: HttpReq = this.request):String {
@@ -117,6 +116,18 @@ class ResponseProvider(request: HttpReq) {
         val formattedDate:String = "Date: $date$CRLF"
 
         return "$version $statusNumber $statusMessage${CRLF}$formattedDate${CRLF}"
+    }
+
+    fun redirect():String{
+        val version:String = request.httpVersion
+        val statusNumber:String = request.statusNumber
+        val statusMessage:String = request.statusMsg
+        val CRLF: String = "\r\n"
+        val date:Date = Date()
+        val formattedDate:String = "Date: $date$CRLF"
+        val location:String = "Location: ${request.fullFilePath}$CRLF"
+
+        return "$version $statusNumber $statusMessage${CRLF}$formattedDate$location${CRLF}"
     }
 
 }

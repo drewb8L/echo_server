@@ -126,13 +126,22 @@ internal class ServerSpec01 {
         val response = HttpRes(request)
         assertEquals("200", response.statusCode.STATUS_CODE.toString())
         assertEquals(response.body, request.body)
-        println("REQUEST ${request.body}")
-        println()
-        println("RESPONSE ${response.body}")
+
     }
-//
-//    @Test
-//    fun simple_redirect(){
-//
-//    }
+
+    @Test
+    fun simple_redirect(){
+        /*
+        Given I make an GET request to "/redirect"
+        Then my response should have status code 301
+        And my response should have a location header with the "localhost:5000/simple_get"
+        And my response should have an empty body
+
+         */
+
+        val request = httpParser.parseHttpReq(Generator.requestToRedirect())
+        val response = HttpRes(request)
+        assertEquals("301", response.statusCode.STATUS_CODE.toString())
+        assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("localhost:5000/simple_get"))
+    }
 }

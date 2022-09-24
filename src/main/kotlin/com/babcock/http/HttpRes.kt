@@ -18,6 +18,9 @@ class HttpRes(request: HttpReq) {
 
 
         try {
+            if (request.method == HttpMethod.POST){
+                Router.handlePostRequest()
+            }
             Router(this.request).handleResourceType() //.getFileOrResource(this.request)
             if(this.request.statusCode == HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND){
                 this.target = request.fullFilePath //= FileInputStream("${request.fullFilePath}")

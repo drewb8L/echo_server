@@ -430,5 +430,25 @@ object Generator {
             )
         )
     }
+
+    fun postRequestWithBody(): InputStream {
+        val validRequestString: String =
+            "POST /echo_body HTTP/1.1\r\n" +
+                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n" +
+                    "Accept-Encoding: gzip, deflate, br\r\n" +
+                    "Accept-Language: en-US,en;q=0.9\r\n" +
+                    "Cache-Control: max-age=0\r\n" +
+                    "Host: localhost:8081\r\n" +
+                    "Content-Type: text\\plain\r\n"+
+                    "\r\n"+
+                    "This is a multi line body.\r\n"+
+                    "It has been successfully parsed,\r\n"+
+                    "because I drank like 23 Monsters and kept at it!"
+        return ByteArrayInputStream(
+            validRequestString.toByteArray(
+                StandardCharsets.US_ASCII
+            )
+        )
+    }
 }
 

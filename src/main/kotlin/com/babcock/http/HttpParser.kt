@@ -19,16 +19,20 @@ class HttpParser {
 
         parseRequestLine(reader, request)
         parseHeaders(reader, request)
-        request.statusCode = HttpStatusCode.SUCCESS_200_OK
-        request.statusNumber = HttpStatusCode.SUCCESS_200_OK.STATUS_CODE.toString()
-        request.statusMsg = HttpStatusCode.SUCCESS_200_OK.MESSAGE
+        log.logSuccess(request.headers.toString())
+        parseBody(reader, request)
         return request
 
     }
 
 
     private fun parseBody(reader: InputStreamReader, request: HttpReq) {
-        //TODO("Not yet implemented")
+        var byte: Int
+        val dataBufferProcess = StringBuilder()
+        while ((reader.read().also { byte = it }) >= 0) {
+            dataBufferProcess.append(byte.toChar())
+        }
+        request.body = dataBufferProcess.toString()
     }
 
 
@@ -128,7 +132,7 @@ class HttpParser {
                     try {
                         request.method = HttpMethod.convertToMethod(dataBuffer.toString())
 
-                    }catch (e:HttpParseException){
+                    } catch (e: HttpParseException) {
                         request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
                         request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                         request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE

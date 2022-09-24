@@ -110,11 +110,6 @@ var request = request
                 break
 
 
-//            if (fileMatcher(resource) && Files.exists(path).and(!Files.isDirectory(path)) ){ // handles root .html files
-//                request.fullFilePath = path
-//                ResponseProvider(request).handleResponseByMethod()
-//                break
-
             }else{
                 ResponseStatus().setStatus(request, HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND)
                 request.fullFilePath = Paths.get("src/main/resources/web_files/400/404.html").toString()
@@ -138,6 +133,12 @@ var request = request
         ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
         ResponseProvider(request).getResponse(request)
 
+    }
+
+    companion object {
+        fun handlePostRequest() {
+            TODO("Not yet implemented")
+        }
     }
 
 

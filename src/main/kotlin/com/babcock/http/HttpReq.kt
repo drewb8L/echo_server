@@ -41,17 +41,16 @@ class HttpReq : HttpMsg() {
     lateinit var statusMsg: String //= "OK"
     var fullFilePath: String = ""
 
-    var body: String? = null
+    var body: String = ""
 
     fun requestToString(): String { // add headers
         return """
         METHOD: $method,
         TARGET: $requestTarget,
+        BODY: $body
         
         COMPATIBLE VERSION: $compatibleHttpVersion,
         INPUT VERSION: $httpVersion
-        
-        
     """.trimIndent()
 
     }

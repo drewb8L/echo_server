@@ -121,6 +121,14 @@ internal class ServerSpec01 {
         Then my response should have status code 200
         And my response body should equal the body of my request
          */
+
+        val request = httpParser.parseHttpReq(Generator.postRequestWithBody())
+        val response = HttpRes(request)
+        assertEquals("200", response.statusCode.STATUS_CODE.toString())
+        assertEquals(response.body, request.body)
+        println("REQUEST ${request.body}")
+        println()
+        println("RESPONSE ${response.body}")
     }
 //
 //    @Test

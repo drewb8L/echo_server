@@ -4,12 +4,12 @@ import java.io.FileInputStream
 import java.nio.file.Path
 
 class HttpRes(request: HttpReq) {
-    lateinit var statusCode:HttpStatusCode
-    lateinit var statusMessage:String
-    lateinit var statusNumber:String
+    lateinit var statusCode: HttpStatusCode
+    lateinit var statusMessage: String
+    lateinit var statusNumber: String
     lateinit var version: String
     lateinit var target: String
-    lateinit var responseHeadersAndBody:String
+    lateinit var responseHeadersAndBody: String
     lateinit var path: String
     var body: String = ""
     var request = request
@@ -18,11 +18,19 @@ class HttpRes(request: HttpReq) {
 
 
         try {
-            if (request.method == HttpMethod.POST){
-                Router.handlePostRequest()
+            if (request.method == HttpMethod.POST) {
+                Router(request).handlePostRequest()
+                this.body = request.body.trim()
+                this.target = request.fullFilePath
+                this.version = request.httpVersion
+                this.path = ""
+                this.statusCode = request.statusCode
+                this.statusMessage = statusCode.MESSAGE
+                this.statusNumber = statusCode.STATUS_CODE.toString()
+                responseHeadersAndBody = ResponseProvider(this.request).postResponse()
             }
             Router(this.request).handleResourceType() //.getFileOrResource(this.request)
-            if(this.request.statusCode == HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND){
+            if (this.request.statusCode == HttpStatusCode.CLIENT_ERROR_404_NOT_FOUND) {
                 this.target = request.fullFilePath //= FileInputStream("${request.fullFilePath}")
                 this.version = request.httpVersion
                 this.path = request.fullFilePath
@@ -30,18 +38,20 @@ class HttpRes(request: HttpReq) {
                 this.statusMessage = statusCode.MESSAGE
                 this.statusNumber = statusCode.STATUS_CODE.toString()
                 responseHeadersAndBody = ResponseProvider(this.request).notFound404()
-            }else {
-                responseHeadersAndBody = EndpointRouter().provideResource(request)
-                this.target = request.fullFilePath //FileInputStream("${request.fullFilePath}")
-                this.version = request.httpVersion
-                this.path = request.fullFilePath
-                this.statusCode = request.statusCode
-                this.statusMessage = statusCode.MESSAGE
-                this.body = request.body.toString()
-                this.statusNumber = statusCode.STATUS_CODE.toString()
+            } else {
+                if (request.method != HttpMethod.POST) {
+                    responseHeadersAndBody = EndpointRouter().provideResource(request)
+                    this.target = request.fullFilePath //FileInputStream("${request.fullFilePath}")
+                    this.version = request.httpVersion
+                    this.path = request.fullFilePath
+                    this.statusCode = request.statusCode
+                    this.statusMessage = statusCode.MESSAGE
+                    this.body = request.body.trim()
+                    this.statusNumber = statusCode.STATUS_CODE.toString()
+                }
 
             }
-        }catch (e:Throwable){
+        } catch (e: Throwable) {
             e.printStackTrace()
         }
 
@@ -57,6 +67,7 @@ class HttpRes(request: HttpReq) {
             |Status msg:${statusCode.MESSAGE}
             |Target: ${target.toString()}
             |Path: ${path.toString()}
+            |Body: $body
             |*** Headers and Body
             |${responseHeadersAndBody}
             |***End Response***

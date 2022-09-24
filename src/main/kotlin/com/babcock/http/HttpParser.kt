@@ -32,7 +32,7 @@ class HttpParser {
         while ((reader.read().also { byte = it }) >= 0) {
             dataBufferProcess.append(byte.toChar())
         }
-        request.body = dataBufferProcess.toString()
+        request.body = dataBufferProcess.toString().trim()
     }
 
 

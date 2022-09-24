@@ -1,7 +1,7 @@
 package com.babcock.http
 
 import java.io.ByteArrayInputStream
-import java.io.File
+
 import java.io.FileInputStream
 import java.io.InputStream
 import java.util.*
@@ -26,6 +26,9 @@ class ResponseProvider(request: HttpReq) {
         }
     }
 
+    private fun putResponse(): String {
+        return ""
+    }
 
 
     fun getResponse(request: HttpReq):String{
@@ -66,12 +69,16 @@ class ResponseProvider(request: HttpReq) {
     }
 
     fun postResponse():String{
-        TODO("Not yet implemented")
+        val CRLF: String = "\r\n"
+        val version:String = request.httpVersion
+        val statusNumber:String = request.statusCode.STATUS_CODE.toString()
+        val statusMsg:String = request.statusCode.MESSAGE
+        val contentType: String = "Content-Type: text/html$CRLF"
+        val contentLength:String = "Content-Length: ${request.body.length}"
+        val body = request.body.trim()
+        return "$version $statusNumber $statusMsg$CRLF$contentType$contentType$contentLength${CRLF}$body"
     }
 
-    private fun putResponse():String {
-        TODO("Not yet implemented")
-    }
 
     fun optionsResponse():String{
         request.body = ""
@@ -96,8 +103,7 @@ class ResponseProvider(request: HttpReq) {
         val statusNumber:String = request.statusNumber
         val statusMessage:String = request.statusMsg
         val CRLF: String = "\r\n"
-        request.body = ""
-        val body = request.body
+        val body = request.body.trim()
         val allowed:String = "Allow: ${EndpointMethodProvider.endpointList[request.requestTarget].toString().removePrefix("[").removeSuffix("]")}\n\r"
         return "$version $statusNumber $statusMessage${CRLF}$allowed${CRLF}${CRLF}$body"
     }
@@ -112,4 +118,5 @@ class ResponseProvider(request: HttpReq) {
 
         return "$version $statusNumber $statusMessage${CRLF}$formattedDate${CRLF}"
     }
+
 }

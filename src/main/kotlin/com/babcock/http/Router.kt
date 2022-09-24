@@ -135,11 +135,13 @@ var request = request
 
     }
 
-    companion object {
-        fun handlePostRequest() {
-            TODO("Not yet implemented")
-        }
+
+    fun handlePostRequest() {
+        ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
+
+
     }
+
 
 
 }

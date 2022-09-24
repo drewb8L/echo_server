@@ -110,53 +110,7 @@ internal class HttpParserTest {
 
     }
 
-    @Test
-    fun parseValidHeaders() {
-        val request = httpParser.parseHttpReq(Generator.supportedHttpVersionRequest())//TODO: Fix test
-        //assertNotNull(request.headers)
-    }
 
-    @Test
-    fun status200OK() {
-        val request = httpParser.parseHttpReq(Generator.supportedHttpVersionRequest())//TODO: Fix test
-
-    }
-
-    @Test
-    fun status400() {
-        val request = httpParser.parseHttpReq(Generator.invalidParseTestCaseEmptyRequestLine())
-        val response = HttpRes(request)
-
-        assertEquals("404",response.statusNumber)
-    }
-
-
-//
-    @Test
-    fun routerFindPathByTarget(){
-
-        val req = httpParser.parseHttpReq(Generator.validParseTestCase())
-        val res = HttpRes(req)
-        val responseHeadersAndBody = res.responseHeadersAndBody
-        assertThat(responseHeadersAndBody, containsString("Welcome to Kotlin HTTP Server"))
-        assertEquals("200",res.statusNumber)
-
-        val req2 = httpParser.parseHttpReq(Generator.validParseTestCaseTo404())
-        val res2 = HttpRes(req2)
-        val responseHeadersAndBody2 = res2.responseHeadersAndBody
-        assertThat(responseHeadersAndBody2, containsString("404 Not Found"))
-        assertEquals("404", res2.statusNumber)
-    }
-
-    @Test
-    fun routerFindByFullFileName(): Unit {
-        val req = httpParser.parseHttpReq(Generator.fullFileName())
-        val res = HttpRes(req)
-        val responseHeadersAndBody = res.responseHeadersAndBody
-        assertThat(responseHeadersAndBody, containsString("Welcome to Kotlin HTTP Server"))
-
-
-    }
     @Test
     fun files() {
         val target:String = "/test.html".lowercase().trim()
@@ -184,30 +138,6 @@ internal class HttpParserTest {
         assertEquals("src/main/resources/web_files/test.html", filePath.toString())
     }
 
-    @Test
-    fun requestResponseFilePath() {
-        val req = httpParser.parseHttpReq(Generator.fullFileName())
-        val res = HttpRes(req)
-        assertNotNull(res.path)
-        assertThat(res.path.toString(), containsString("src/main/resources/web_files/index.html"))
 
-        val req2 = httpParser.parseHttpReq((Generator.validParseTestCaseTo404()))
-        val res2 = HttpRes(req2)
-        assertNotNull(res2.path)
-        assertThat(res2.path.toString(), containsString("src/main/resources/web_files/400/404.html"))
-    }
-
-    @Test
-    fun requestToEndpoint(){
-        //val reqToFile = httpParser.parseHttpReq(Generator.fullFileName())
-        val reqToEndpoint = httpParser.parseHttpReq(Generator.getRequestToHead())
-
-        val resToEndpoint = HttpRes(reqToEndpoint)
-        //val resToFile = HttpRes(reqToFile)
-
-        //println(resToEndpoint.path.toString())
-        //println("***************************")
-        //println(resToFile.path.toString())
-    }
 
 }

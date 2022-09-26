@@ -1,11 +1,10 @@
 package com.babcock.http
 
 import com.babcock.testHelpers.Generator
-import com.babcock.http.HttpStatusCode
+
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
-import org.junit.Before
+
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -98,7 +97,6 @@ internal class ServerSpec01 {
         val request = httpParser.parseHttpReq(Generator.requestToOptions())
         val response = HttpRes(request)
         assertEquals(HttpStatusCode.SUCCESS_200_OK.STATUS_CODE.toString(), response.statusCode.STATUS_CODE.toString())
-
         assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("GET, HEAD, OPTIONS"))
         assertEquals("", response.body)
 

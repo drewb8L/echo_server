@@ -3,6 +3,7 @@ package com.babcock.http
 import com.babcock.testHelpers.Generator
 
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 
 import org.junit.jupiter.api.Test
@@ -96,7 +97,8 @@ internal class ServerSpec01 {
          */
         val request = httpParser.parseHttpReq(Generator.requestToOptions())
         val response = HttpRes(request)
-        assertEquals("200", response.statusCode.STATUS_CODE.toString())
+        //assertEquals("200", response.statusCode.STATUS_CODE.toString())
+        assertThat( response.statusNumber,equalTo("200"))
         assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("GET, HEAD, OPTIONS"))
         assertEquals("", response.body)
 

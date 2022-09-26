@@ -25,7 +25,9 @@ internal class ServerSpec01 {
         */
 
         assertEquals("", response.body)
-        assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("HEAD, OPTIONS"))
+//        assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("HEAD, OPTIONS"))
+        assertEquals("HTTP/1.1 405 Method Not Allowed\r\n" +
+                "Allow: HEAD, OPTIONS", response.responseHeadersAndBody.trim())
         assertEquals("405", response.statusNumber)
     }
 

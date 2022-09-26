@@ -36,7 +36,7 @@ fun server(port: Int) {
                     val req = parser.parseHttpReq(request)
 
                     val res = HttpRes(req)
-                    res.responseHeadersAndBody?.let { output.writeStringUtf8(it) }
+                    res.responseHeadersAndBody.let { output.writeStringUtf8(it) }
 
 
                 } catch (e: Throwable) {

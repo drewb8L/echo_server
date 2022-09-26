@@ -43,7 +43,7 @@ var request = request
                 break
             }
             if (resource == "/") { //handles root/
-                setFilePathToIndex(path, webRoot, resource)
+                setFilePathToIndex(path) // TODO: (path, webroot, resource)
                 ResponseProvider(request).handleResponseByMethod()
                 break
 
@@ -64,9 +64,9 @@ var request = request
 
 
 
-    private fun setFilePathToIndex(path: Path, webRoot: Path?, resource: String) {
-        var filePath = path
-        filePath = Paths.get("$webRoot${resource}index.html")
+    private fun setFilePathToIndex(path: Path) { // TODO: (path, webroot, resource)
+        //var filePath: Path = Paths.get("$webRoot${resource}index.html")
+        var filePath:Path = Paths.get("${path}index.html")
         request.fullFilePath = Paths.get(filePath.toString()).toString()
         ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
         ResponseProvider(request).getResponse(request)

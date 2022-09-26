@@ -98,8 +98,8 @@ internal class ServerSpec01 {
         val request = httpParser.parseHttpReq(Generator.requestToOptions())
         val response = HttpRes(request)
         //assertEquals("200", response.statusCode.STATUS_CODE.toString())
-        assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("GET, HEAD, OPTIONS"))
         assertEquals("", response.body)
+        assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("GET, HEAD, OPTIONS"))
         assertThat(response.statusNumber,equalTo("200"))
 
 

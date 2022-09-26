@@ -1,6 +1,6 @@
 //package com.babcock.testHelpers
 //
-//import com.babcock.Log
+//import Log
 //import com.babcock.http.HttpReq
 //import java.io.FileInputStream
 //import java.lang.Exception

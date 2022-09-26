@@ -1,6 +1,6 @@
 package com.babcock.http
 
-import com.babcock.Log
+import Log
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*

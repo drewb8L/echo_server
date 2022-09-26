@@ -4,7 +4,7 @@ plugins {
 }
 
 
-group = 'com.babcock'
+group = 'com.babcock.http'
 version = '1.0-SNAPSHOT'
 
 repositories {

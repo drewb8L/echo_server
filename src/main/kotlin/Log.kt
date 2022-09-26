@@ -1,5 +1,3 @@
-package com.babcock
-
 class Log {
     // ANSI escape code
     private val ANSI_RED = "\u001B[31m"

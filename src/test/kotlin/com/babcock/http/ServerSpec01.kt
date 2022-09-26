@@ -4,17 +4,19 @@ import com.babcock.testHelpers.Generator
 import com.babcock.http.HttpStatusCode
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.After
+import org.junit.Before
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 val httpParser = HttpParser()
 
 internal class ServerSpec01 {
+
     @Test
     fun method_not_allowed() {
         val request = httpParser.parseHttpReq(Generator.getRequestToHead())
         val response = HttpRes(request)
-        println(response.toString())
         /*
             Given I make an GET request to "/head_request"
             Then my response should have status code 405
@@ -39,10 +41,10 @@ internal class ServerSpec01 {
     }
 
     @Test
+
     fun simple_get() {
         val request = httpParser.parseHttpReq(Generator.getRequestToSimpleGet())
         val response = HttpRes(request)
-        println(response.toString())
         /*
             Given I make a GET request to "/simple_get"
             Then my response should have status code 200
@@ -98,7 +100,7 @@ internal class ServerSpec01 {
         assertEquals(HttpStatusCode.SUCCESS_200_OK.toString(), response.statusCode.toString())
         assertThat(response.responseHeadersAndBody, CoreMatchers.containsString("GET, HEAD, OPTIONS"))
         assertEquals("", response.body)
-        println(response.body)
+
 
         /*
             Given I make an OPTIONS request to "/method_options2"

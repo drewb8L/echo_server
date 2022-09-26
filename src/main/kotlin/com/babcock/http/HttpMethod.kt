@@ -1,11 +1,5 @@
 package com.babcock.http
 
-
-import io.ktor.utils.io.*
-import javax.xml.stream.events.Characters
-import kotlin.Throws
-
-
 enum class HttpMethod {
     GET, HEAD, POST, OPTIONS, PUT;
 
@@ -21,7 +15,7 @@ enum class HttpMethod {
                 "OPTIONS" -> OPTIONS
                 "PUT" ->  PUT
                 else -> {
-                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)//TODO: change to set status code on response
+                    throw HttpParseException(HttpStatusCode.CLIENT_ERROR_405_METHOD_NOT_ALLOWED)
                 }
             }
             return code

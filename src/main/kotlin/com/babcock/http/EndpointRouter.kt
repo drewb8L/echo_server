@@ -1,8 +1,6 @@
 package com.babcock.http
 
-import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 
 
 class EndpointRouter(endpoints: MutableMap<String, List<HttpMethod>> = EndpointMethodProvider.endpointList) {
@@ -11,22 +9,6 @@ class EndpointRouter(endpoints: MutableMap<String, List<HttpMethod>> = EndpointM
     init{
         this.endpoints = endpoints
     }
-
-
-//    fun isValidEndpoint(target: String): Boolean { TODO: Review for delete
-//        val pattern = Regex(pattern = "^/.*$")// fix regex to exclude /word.ext
-//        val webRoot = "src/main/resources/web_files"
-//
-//        if (target == "/"){
-//            return true
-//        }
-//
-//        val path: Path = Paths.get("$webRoot$target")
-//        return when (Files.isDirectory(path)){
-//            true -> true
-//            else -> false
-//        }
-//    }
 
 
     fun provideResource(request: HttpReq, target: String = request.requestTarget): String{

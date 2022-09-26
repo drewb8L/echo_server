@@ -105,7 +105,7 @@ class HttpParser {
                         request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                         request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                         return request
-                        //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+
                     }
                     try {
                         log.logSuccess("Version test: ${dataBuffer.toString()}")
@@ -114,7 +114,7 @@ class HttpParser {
                         request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
                         request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                         request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
-                        //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+
                         return request
                     }
                     return request
@@ -123,7 +123,7 @@ class HttpParser {
                     request.statusCode = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST
                     request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                     request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
-                    //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+
                 }
             }
             if (byte == SP) {
@@ -148,7 +148,7 @@ class HttpParser {
                     request.statusNumber = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.STATUS_CODE.toString()
                     request.statusMsg = HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST.MESSAGE
                     return request
-                    //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
+
                 }
 
                 dataBuffer.delete(0, dataBuffer.length)

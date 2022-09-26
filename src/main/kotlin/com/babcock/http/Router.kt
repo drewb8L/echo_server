@@ -1,32 +1,17 @@
 package com.babcock.http
 
-import java.io.FileInputStream
+
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-// TODO: explicit types
-class Router(request: HttpReq) {
 
-var request = request
-    fun handleFileTarget(request: HttpReq, path: String): FileInputStream {
-
-        ResponseStatus().setStatus(request, HttpStatusCode.SUCCESS_200_OK)
-        return FileInputStream(path)
-
-    }
-
-    fun fileMatcher(path: String): Boolean {
-        val pattern = Regex(".html", setOf(RegexOption.IGNORE_CASE))
-        return pattern.containsMatchIn(path)
-    }
+class Router(var request: HttpReq) {
 
     fun endpointMatcher(path:String): Boolean{
         val pattern = Regex("^/.*_?.*\$", setOf(RegexOption.IGNORE_CASE))
         return pattern.containsMatchIn(path)
     }
-
-
 
     fun handleResourceType() {
         val resource = request.requestTarget.lowercase().trim()

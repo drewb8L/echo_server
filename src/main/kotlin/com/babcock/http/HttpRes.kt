@@ -1,9 +1,8 @@
 package com.babcock.http
 
-import java.io.FileInputStream
-import java.nio.file.Path
 
-class HttpRes(request: HttpReq) {
+
+class HttpRes(var request: HttpReq) {
     lateinit var statusCode: HttpStatusCode
     lateinit var statusMessage: String
     lateinit var statusNumber: String
@@ -12,7 +11,6 @@ class HttpRes(request: HttpReq) {
     lateinit var responseHeadersAndBody: String
     lateinit var path: String
     var body: String = ""
-    var request = request
 
     init {
 

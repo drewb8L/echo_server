@@ -91,12 +91,6 @@ class ResponseProvider(request: HttpReq) {
         return "$version $statusNumber $statusMsg$CRLF${formattedDate}$allowed${CRLF}${CRLF}"
     }
 
-    fun notImplementedResponse():String{
-        TODO("Not yet implemented")
-    }
-
-
-
     fun notAllowedResponse():String {
         val version:String = request.httpVersion
         val statusNumber:String = request.statusNumber

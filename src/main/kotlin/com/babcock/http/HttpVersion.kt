@@ -17,7 +17,7 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
             val matcher: Matcher = httpVersionPattern.matcher(inputVersion)
             if (!matcher.find() || matcher.groupCount() != 2) {
 
-                //throw HttpParseException(HttpStatusCode.SERVER_ERROR_505_INTERNAL_SERVER_ERROR)
+
                 return HTTP_0_0
             }
             val major = matcher.group("major").toInt()
@@ -31,7 +31,6 @@ enum class HttpVersion(val VERSION: String, val MAJOR: Int, val MINOR: Int) {
                     return version
                 } else if (version.MAJOR > major) {
                     return HTTP_0_0
-                    //throw HttpParseException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST)
                 } else if (version.MAJOR < major) {
                     return HTTP_0_0
                 } else {

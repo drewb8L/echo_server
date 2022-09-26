@@ -1,6 +1,6 @@
 package com.babcock.http
 
-import java.nio.file.Path
+
 
 
 class HttpReq : HttpMsg() {
@@ -36,24 +36,13 @@ class HttpReq : HttpMsg() {
             }
         }
     var headers = HashMap<String, String>()
-    lateinit var statusCode: HttpStatusCode//lateinit  = HttpStatusCode.SUCCESS_200_OK
-    lateinit var statusNumber: String//Int //= 200
-    lateinit var statusMsg: String //= "OK"
+    lateinit var statusCode: HttpStatusCode
+    lateinit var statusNumber: String
+    lateinit var statusMsg: String
     var fullFilePath: String = ""
 
     lateinit var body: String
 
-    fun requestToString(): String { // add headers
-        return """
-        METHOD: ${this.method},
-        TARGET: $requestTarget,
-        BODY: $body
-        
-        COMPATIBLE VERSION: $compatibleHttpVersion,
-        INPUT VERSION: $httpVersion
-    """.trimIndent()
-
-    }
 
 
 }
